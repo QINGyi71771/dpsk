@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-26",
+  "vocab": {
+    "kaoyan": 1250,
+    "kaoyanTotal": 5500,
+    "cet6": 980,
+    "cet6Total": 6000,
+    "cet4": 2000,
+    "cet4Total": 4500,
+    "dailyNew": 50,
+    "dailyReview": 100
+  },
+  "checkins": {},
+  "scores": [
+    { "date": "2026-05", "exam": "cet6", "score": 420 },
+    { "date": "2026-06", "exam": "cet6", "score": 445 },
+    { "date": "2026-07", "exam": "cet6", "score": 468 },
+    { "date": "2026-08", "exam": "cet6", "score": 490 }
+  ],
+  "goals": {
+    "cet6": 550,
+    "cet4": 500,
+    "kaoyan2": 70
+  }
+}

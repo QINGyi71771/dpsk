@@ -1,0 +1,36 @@
+# ==================== 工具与本地产物 ====================
+# PortableGit 安装目录（git 本体，不入库）
+.tools/
+
+# ==================== 解包/提取的第三方应用 ====================
+# 体积巨大（GB 级），属于提取产物而非项目代码
+codex-extract/
+cx/
+drivers/
+edgeprof/
+edgeprof2/
+edgeprof3/
+edgeprof4/
+edgeprof5/
+
+# ==================== 根目录临时探测文件 ====================
+# 驱动 / UAC / 代理 / 浏览器自动化排查过程中的中间产物
+/*.txt
+/*.ps1
+/*.js
+/*.cjs
+/*.html
+/*.zip
+/*.png
+/*.ico
+/*.json
+/.wprobe
+
+# 例外：真实学习数据，保留入库
+!/study-progress.json
+
+# ==================== 通用 ====================
+*.tmp
+Thumbs.db
+desktop.ini
+.DS_Store

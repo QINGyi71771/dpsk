@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>英语学习工作台 · 考研二 + 四六级</title>
+<style>
+  :root{
+    --bg:#0f1220; --card:#181c30; --card2:#1f2440; --line:#2a3052;
+    --txt:#e8eaf6; --mut:#9aa3c7; --acc:#5b8cff; --acc2:#7c5bff;
+    --ok:#3ddc84; --warn:#ffb74d; --bad:#ff6b6b; --c4:#4fc3f7; --c6:#ff8a65; --ky:#c792ea;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--txt);font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;min-height:100vh}
+  header{background:linear-gradient(135deg,#1b2150,#3a2a6e 60%,#5b3a8f);padding:22px 20px 16px;text-align:center}
+  header h1{font-size:22px;letter-spacing:1px}
+  header .sub{color:#cfd6ff;font-size:13px;margin-top:6px}
+  .countdown{display:flex;gap:14px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+  .cd{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:8px 20px;min-width:140px}
+  .cd .n{font-size:28px;font-weight:700;color:#fff}
+  .cd .l{font-size:12px;color:#cfd6ff;margin-top:2px}
+  nav{display:flex;gap:4px;overflow-x:auto;padding:10px 12px;background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+  nav button{flex:0 0 auto;background:transparent;color:var(--mut);border:1px solid transparent;border-radius:8px;padding:8px 13px;font-size:14px;cursor:pointer;white-space:nowrap}
+  nav button.on{background:var(--acc);color:#fff}
+  main{max-width:880px;margin:0 auto;padding:16px 14px 60px}
+  .sec{display:none}
+  .sec.on{display:block}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px}
+  .card h2{font-size:16px;margin-bottom:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .tag{font-size:11px;background:var(--card2);color:var(--mut);padding:2px 8px;border-radius:99px;font-weight:400}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--line)}
+  th{color:var(--mut);font-weight:500;font-size:12px}
+  .bar{height:10px;background:var(--card2);border-radius:99px;overflow:hidden;margin-top:6px}
+  .bar>div{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--acc),var(--acc2));transition:width .3s}
+  .kv{display:grid;grid-template-columns:auto 1fr;gap:7px 16px;font-size:13.5px}
+  .kv b{color:var(--mut);font-weight:400}
+  label.ck{display:flex;align-items:flex-start;gap:10px;padding:9px 12px;background:var(--card2);border-radius:10px;margin-bottom:7px;cursor:pointer;font-size:13.5px;transition:.15s}
+  label.ck:hover{border-color:var(--acc)}
+  label.ck input{width:17px;height:17px;accent-color:var(--acc);margin-top:1px}
+  label.ck.done{opacity:.55;text-decoration:line-through}
+  .btn{background:var(--acc);color:#fff;border:none;border-radius:9px;padding:8px 15px;font-size:13.5px;cursor:pointer;transition:.15s}
+  .btn:hover{filter:brightness(1.12)}
+  .btn.gray{background:var(--card2);color:var(--txt);border:1px solid var(--line)}
+  .btn.danger{background:var(--bad)}
+  .btn.sm{padding:3px 10px;font-size:12px}
+  .row{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+  input[type=text],input[type=number],input[type=date],select,textarea{background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:8px 10px;font-size:13.5px;width:100%}
+  textarea{min-height:80px;font-family:Consolas,monospace;font-size:12px;resize:vertical}
+  .small{font-size:12px;color:var(--mut);line-height:1.6}
+  .ok{color:var(--ok)} .warn{color:var(--warn)} .bad{color:var(--bad)} .c4{color:var(--c4)} .c6{color:var(--c6)} .ky{color:var(--ky)}
+  details{background:var(--card2);border-radius:10px;margin-bottom:8px;overflow:hidden}
+  summary{padding:11px 14px;cursor:pointer;font-size:14px;font-weight:500;list-style:none}
+  summary::before{content:"▸ ";color:var(--acc)}
+  details[open] summary::before{content:"▾ "}
+  details .body{padding:0 14px 14px;font-size:13px;color:var(--mut);line-height:1.8}
+  .grp{margin:10px 0 4px;font-size:13px;font-weight:600;color:var(--mut)}
+  .grp .c4{color:var(--c4)} .grp .c6{color:var(--c6)} .grp .ky{color:var(--ky)}
+  #toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(80px);background:#232a4d;border:1px solid var(--line);color:var(--txt);padding:10px 18px;border-radius:99px;font-size:14px;opacity:0;transition:.25s;z-index:99}
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  footer{text-align:center;color:var(--mut);font-size:12px;padding:18px}
+  .chart-wrap{background:var(--card2);border-radius:10px;padding:12px;overflow-x:auto}
+  svg text{fill:var(--mut);font-size:11px}
+  .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:8px}
+  .cal .d{aspect-ratio:1;background:var(--card2);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--mut)}
+  .cal .d.hot{background:var(--acc);color:#fff;font-weight:600}
+  .cal .d.today{outline:2px solid var(--ok)}
+  .cal .w{font-size:11px;color:var(--mut);text-align:center;padding:2px 0}
+  .mini{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px;vertical-align:-1px}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📚 英语学习工作台</h1>
+  <div class="sub">考研英语二 · 四级 · 六级 &nbsp;|&nbsp; 完整备考体系 · 数据本地保存 + 导入/导出 + GitHub 同步</div>
+  <div class="countdown">
+    <div class="cd"><div class="n" id="cdKy">–</div><div class="l">距考研英语二 · 2026-12-26</div></div>
+    <div class="cd"><div class="n" id="cdCet6">–</div><div class="l">距六级 · 2026-12-12 下午</div></div>
+    <div class="cd"><div class="n" id="cdCet4">–</div><div class="l">距四级 · 2026-12-12 上午</div></div>
+  </div>
+</header>
+
+<nav id="nav"></nav>
+
+<main>
+  <!-- ============ 总览 ============ -->
+  <section class="sec" id="sec-overview">
+    <div class="card"><h2>🗓 考试倒计时与阶段 <span class="tag" id="ovStage"></span></h2>
+      <table><tr><th>考试</th><th>日期</th><th>倒计时</th><th>目标</th></tr>
+      <tr><td class="c4">四级 CET-4</td><td>2026-12-12（周六上午）</td><td id="ovCet4">–</td><td id="goalCet4">–</td></tr>
+      <tr><td class="c6">六级 CET-6</td><td>2026-12-12（周六下午）</td><td id="ovCet6">–</td><td id="goalCet6">–</td></tr>
+      <tr><td class="ky">考研英语二</td><td>2026-12-26（周六下午）</td><td id="ovKy">–</td><td id="goalKy">–</td></tr></table>
+      <div class="small" id="ovStageTip" style="margin-top:8px"></div>
+    </div>
+    <div class="card"><h2>📊 累计数据 <span class="tag" id="ovDate"></span></h2>
+      <div class="kv" id="ovKv"></div>
+    </div>
+    <div class="card"><h2>🎯 本周目标</h2>
+      <div class="row">
+        <input type="text" id="wkGoal" placeholder="本周要完成什么？如：背完考研 350 词 + 做 2 套六级阅读">
+        <button class="btn" id="wkSave">保存周目标</button>
+      </div>
+      <div class="small" id="wkShow" style="margin-top:8px"></div>
+    </div>
+    <div class="card"><h2>💡 备考策略</h2>
+      <div class="small" style="line-height:1.9">三考并行：12-12 上午四级、下午六级，12 月下旬考研英语二。四级 425 过线（目标 500+），六级目标 550+，考研二 70+。词汇与阅读是共同底盘（考研词汇覆盖四六级 90%+），每天 2 小时共用基础；听力/写作按考试差异化训练。8-10 月强化、11 月真题套卷、12 月上四六级冲刺、下旬考研冲刺。</div>
+    </div>
+  </section>
+
+  <!-- ============ 每日打卡 ============ -->
+  <section class="sec" id="sec-checkin">
+    <div class="card"><h2>✅ 每日打卡 <span class="tag" id="ckDate"></span></h2>
+      <div class="kv" style="margin-bottom:10px">
+        <b>今日完成</b><span id="ckProgress">0 / 0</span>
+        <b>连续打卡</b><span id="ckStreak">0 天</span>
+        <b>累计打卡</b><span id="ckTotal">0 天</span>
+      </div>
+      <div id="ckList"></div>
+      <div class="grp">＋ 自定义任务</div>
+      <div class="row">
+        <input type="text" id="ckNew" placeholder="任务内容，如：听 TED 演讲 20 分钟" style="flex:1;min-width:200px">
+        <select id="ckExam" style="width:110px"><option value="cet4">四级</option><option value="cet6">六级</option><option value="ky">考研</option><option value="all">通用</option></select>
+        <button class="btn gray" id="ckAdd">添加任务</button>
+      </div>
+    </div>
+    <div class="card"><h2>📅 本月打卡热力图 <span class="tag">绿色框 = 今天</span></h2>
+      <div class="cal" id="ckCal"></div>
+    </div>
+  </section>
+
+  <!-- ============ 单词库 ============ -->
+  <section class="sec" id="sec-vocab">
+    <div class="card"><h2>🔤 词汇进度</h2>
+      <div class="kv" style="margin-bottom:4px"><b class="ky">考研词汇</b><span id="vKyTxt">–</span></div>
+      <div class="bar"><div id="vKyBar" style="width:0%"></div></div>
+      <div class="row" style="margin:8px 0 14px">
+        <button class="btn gray sm" data-vocab="ky" data-d="-50">−50</button>
+        <button class="btn gray sm" data-vocab="ky" data-d="50">+50</button>
+        <span class="small">目标 5500</span>
+      </div>
+      <div class="kv" style="margin-bottom:4px"><b class="c6">六级词汇</b><span id="vCet6Txt">–</span></div>
+      <div class="bar"><div id="vCet6Bar" style="width:0%"></div></div>
+      <div class="row" style="margin:8px 0 14px">
+        <button class="btn gray sm" data-vocab="cet6" data-d="-50">−50</button>
+        <button class="btn gray sm" data-vocab="cet6" data-d="50">+50</button>
+        <span class="small">目标 6000（与考研重叠约 2000）</span>
+      </div>
+      <div class="kv" style="margin-bottom:4px"><b class="c4">四级词汇</b><span id="vCet4Txt">–</span></div>
+      <div class="bar"><div id="vCet4Bar" style="width:0%"></div></div>
+      <div class="row" style="margin:8px 0 4px">
+        <button class="btn gray sm" data-vocab="cet4" data-d="-50">−50</button>
+        <button class="btn gray sm" data-vocab="cet4" data-d="50">+50</button>
+        <span class="small">目标 4500（与六级/考研重叠多）</span>
+      </div>
+      <div class="row" style="margin-top:12px">
+        <span class="small">每日节奏：</span>
+        <input type="number" id="vNew" style="width:64px" min="0"><span class="small">新词</span>
+        <input type="number" id="vRev" style="width:64px" min="0"><span class="small">复习</span>
+        <button class="btn gray sm" id="vSave">保存</button>
+      </div>
+    </div>
+    <div class="card"><h2>📒 生词本 <span class="tag" id="vbCount"></span><span class="tag" id="vbDue" style="background:var(--warn);color:#000"></span></h2>
+      <div class="row">
+        <input type="text" id="vbWord" placeholder="单词" style="width:130px">
+        <input type="text" id="vbMean" placeholder="释义/例句" style="flex:1;min-width:160px">
+        <select id="vbExam" style="width:96px"><option value="cet4">四级</option><option value="cet6">六级</option><option value="ky">考研</option></select>
+        <button class="btn" id="vbAdd">加入生词本</button>
+      </div>
+      <div class="small" style="margin-top:8px">艾宾浩斯复习：加入后第 1 / 2 / 4 / 7 / 15 天应复习，到期词会高亮显示。</div>
+      <div id="vbList" style="margin-top:10px"></div>
+    </div>
+  </section>
+
+  <!-- ============ 真题 + 错题 ============ -->
+  <section class="sec" id="sec-practice">
+    <div class="card"><h2>📝 真题套数管理 <span class="tag" id="ppCount"></span></h2>
+      <div class="row">
+        <select id="ppExam" style="width:120px"><option value="cet4">四级</option><option value="cet6">六级</option><option value="ky">考研二</option></select>
+        <input type="text" id="ppNo" placeholder="套号，如 2024-12 第1套" style="flex:1;min-width:140px">
+        <input type="number" id="ppScore" placeholder="得分（做完填）" style="width:110px" min="0">
+        <button class="btn" id="ppAdd">登记</button>
+      </div>
+      <table style="margin-top:10px" id="ppTable"><tr><th>考试</th><th>套号</th><th>状态</th><th>得分</th><th></th></tr></table>
+    </div>
+    <div class="card"><h2>📖 各考试题型分值 <span class="tag">用时建议</span></h2>
+      <table><tr><th>考试</th><th>题型（分值 · 建议用时）</th></tr>
+      <tr><td class="c4">四级</td><td>写作 106.5·30min ｜ 听力 248.5·25min ｜ 阅读 248.5·40min ｜ 翻译 106.5·30min（满分 710）</td></tr>
+      <tr><td class="c6">六级</td><td>写作 106.5·30min ｜ 听力 248.5·25min ｜ 阅读 248.5·40min ｜ 翻译 106.5·30min（满分 710）</td></tr>
+      <tr><td class="ky">考研二</td><td>完形 10·15min ｜ 阅读A 40·70min ｜ 新题型 10·15min ｜ 翻译 15·25min ｜ 写作 25·45min（满分 100）</td></tr></table>
+    </div>
+    <div class="card"><h2>❌ 错题本 <span class="tag" id="mbCount"></span></h2>
+      <div class="row">
+        <select id="mbExam" style="width:110px"><option value="cet4">四级</option><option value="cet6">六级</option><option value="ky">考研二</option></select>
+        <select id="mbSection" style="width:120px"><option>听力</option><option>阅读</option><option>写作</option><option>翻译</option><option>完形</option><option>新题型</option><option>词汇语法</option></select>
+        <input type="text" id="mbReason" placeholder="错误原因，如：长难句读不懂 / 同义替换没识别" style="flex:1;min-width:160px">
+        <input type="text" id="mbNote" placeholder="备注（可选）" style="flex:1;min-width:120px">
+        <button class="btn" id="mbAdd">记录</button>
+      </div>
+      <div class="kv" style="margin-top:10px" id="mbStats"></div>
+      <table style="margin-top:10px" id="mbTable"><tr><th>日期</th><th>考试</th><th>题型</th><th>原因</th><th>备注</th><th></th></tr></table>
+    </div>
+  </section>
+
+  <!-- ============ 成绩追踪 ============ -->
+  <section class="sec" id="sec-scores">
+    <div class="card"><h2>📈 成绩趋势 <span class="tag" id="scFilterTag"></span></h2>
+      <div class="row" style="margin-bottom:10px">
+        <select id="scFilter" style="width:140px"><option value="all">全部考试</option><option value="cet4">四级</option><option value="cet6">六级</option><option value="ky">考研二</option></select>
+      </div>
+      <div class="chart-wrap" id="scoreChart"></div>
+      <div class="kv" style="margin-top:10px" id="scStats"></div>
+    </div>
+    <div class="card"><h2>➕ 记录成绩</h2>
+      <div class="row">
+        <input type="date" id="sDate" style="width:150px">
+        <select id="sExam" style="width:120px"><option value="cet4">四级</option><option value="cet6">六级</option><option value="ky">考研二</option></select>
+        <input type="number" id="sScore" placeholder="总分" style="width:100px" min="0">
+        <button class="btn" id="sAdd">添加总分</button>
+      </div>
+      <div class="grp">分题型成绩（听力 / 阅读 / 写作 / 翻译）</div>
+      <div class="row">
+        <input type="date" id="ssDate" style="width:150px">
+        <select id="ssExam" style="width:110px"><option value="cet6">六级</option><option value="cet4">四级</option><option value="ky">考研二</option></select>
+        <select id="ssSection" style="width:110px"><option>听力</option><option>阅读</option><option>写作</option><option>翻译</option><option>完形</option></select>
+        <input type="number" id="ssScore" placeholder="得分" style="width:90px" min="0">
+        <input type="number" id="ssTotal" placeholder="满分" style="width:90px" min="0" value="248.5">
+        <button class="btn gray" id="ssAdd">记录</button>
+      </div>
+      <table style="margin-top:10px" id="scTable"><tr><th>日期</th><th>考试</th><th>总分</th><th></th></tr></table>
+      <table style="margin-top:10px" id="ssTable"><tr><th>日期</th><th>考试</th><th>题型</th><th>得分/满分</th><th>正确率</th><th></th></tr></table>
+    </div>
+  </section>
+
+  <!-- ============ 干货速查 ============ -->
+  <section class="sec" id="sec-tips">
+    <div class="card"><h2>🎯 备考干货速查</h2>
+      <details open><summary>当前阶段行动清单</summary><div class="body" id="tipStage"></div></details>
+      <details><summary>作文模板框架（分考试）</summary><div class="body">
+        <b>四级/六级写作</b>（30min · 106.5分）：引言（表明观点）→ 主体（论点×2，各配 1-2 例证）→ 结论（重申+建议）。万能句：<i>It is widely acknowledged that... / From my perspective, ... / To sum up, ...</i><br><br>
+        <b>考研小作文</b>（应用文）：称呼 → 表明身份与目的 → 要点（2-3 条，条理词 First/Second/Finally）→ 致谢期待回复 → 署名。<br><br>
+        <b>考研大作文</b>（图表）：首段描述图表（As is vividly shown...）+ 总体趋势；中段分析原因（2-3 个，从经济/观念/政策角度）；尾段总结或建议展望。
+      </div></details>
+      <details><summary>翻译技巧</summary><div class="body">
+        <b>考研英译汉</b>（15分）：① 断句拆长句（找连词/从句）② 先抓主干主谓宾 ③ 定语从句拆开译 ④ 语序按中文习惯调整 ⑤ 通读润色，避免翻译腔。<br><br>
+        <b>四六级汉译英</b>：① 先找主谓宾搭骨架 ② 用简单句+连接词，宁可简单别错 ③ 高频句型：被动语态（is widely used）、定语从句（which/that）、It 形式主语、not only...but also。
+      </div></details>
+      <details><summary>时间分配（实战节奏）</summary><div class="body">
+        考研二 180min：完形 15 → 阅读A 70（每篇约 17min）→ 新题型 15 → 翻译 25 → 写作 45（小 15 / 大 30）。<br>
+        四六级 130min：写作 30 → 听力 25 → 阅读 40 → 翻译 30。听力一结束即收答题卡，务必边听边涂卡。
+      </div></details>
+      <details><summary>高频短语 / 同义替换</summary><div class="body">
+        写作提分短语：play a vital role in / give priority to / take ... into consideration / in the long run / bridge the gap between。<br>
+        阅读同义替换（高频）：important→crucial/significant；increase→surge/soar/boost；decrease→decline/drop/plunge；support→advocate/back；oppose→resist/object to；show→indicate/reveal/demonstrate。
+      </div></details>
+      <details><summary>听力提分要点</summary><div class="body">
+        ① 预览题目：抓选项关键词，预判场景与问题 ② 听到什么选什么（四六级多数题答案即原文）③ 注意转折词（but/however/actually）后才是重点 ④ 数字、时间、地点一定记笔记 ⑤ 每天精听 1 篇：盲听→看原文→跟读。
+      </div></details>
+      <details><summary>阅读提分要点</summary><div class="body">
+        ① 先题后文：题干定位→段落定位→细节比对 ② 主旨题看首尾段+各段首句 ③ 细节题警惕偷换概念（范围/程度/时态）④ 猜词题看上下文逻辑（因果/转折/并列）⑤ 限时训练：每篇 15-17min。
+      </div></details>
+    </div>
+  </section>
+
+  <!-- ============ 进度管理 ============ -->
+  <section class="sec" id="sec-progress">
+    <div class="card"><h2>🏆 目标管理</h2>
+      <div class="row">
+        <span class="small">四级目标</span><input type="number" id="gCet4" style="width:90px" min="0">
+        <span class="small">六级目标</span><input type="number" id="gCet6" style="width:90px" min="0">
+        <span class="small">考研二目标</span><input type="number" id="gKy" style="width:90px" min="0">
+        <button class="btn gray" id="gSave">保存目标</button>
+      </div>
+    </div>
+    <div class="card"><h2>💾 学习进度管理</h2>
+      <div class="kv" id="pgKv"></div>
+      <div class="row" style="margin-top:14px">
+        <button class="btn" id="pgSave">💾 保存到本机</button>
+        <button class="btn gray" id="pgExport">📤 导出 JSON</button>
+        <button class="btn gray" id="pgImport">📥 从文件导入</button>
+        <input type="file" id="pgFile" accept=".json,application/json" style="display:none">
+        <button class="btn danger" id="pgReset">重置</button>
+      </div>
+      <div class="small" style="margin-top:14px">导出格式 v2：version / vocab / checkins / tasks / scores / sectionScores / papers / mistakes / vocabBook / goals / weeklyGoal</div>
+      <textarea id="pgText" placeholder="也可以把 JSON 粘贴到这里，再点「应用粘贴的 JSON」"></textarea>
+      <button class="btn gray" id="pgApply" style="margin-top:8px">应用粘贴的 JSON</button>
+      <details style="margin-top:12px"><summary>GitHub 同步（可选）— 进度备份到 GitHub / Gist</summary>
+        <div class="body" style="padding-top:12px">
+          <div class="row" style="margin-bottom:8px">
+            <select id="ghMode" style="width:130px"><option value="gist">Gist（推荐）</option><option value="repo">仓库文件</option></select>
+            <input type="text" id="ghTarget" placeholder="Gist ID 或 owner/repo" style="flex:1">
+          </div>
+          <input type="password" id="ghToken" placeholder="GitHub 个人访问令牌（PAT）" style="margin-bottom:8px">
+          <div class="row">
+            <button class="btn" id="ghPush">📤 推送到 GitHub</button>
+            <button class="btn gray" id="ghPull">📥 从 GitHub 拉取</button>
+          </div>
+          <div class="small" id="ghStatus" style="margin-top:8px">令牌只保存在本浏览器，不会写入导出的 JSON。Gist 模式需勾选 gist 权限；仓库模式需勾选 repo/contents 权限。</div>
+        </div>
+      </details>
+    </div>
+  </section>
+</main>
+
+<footer>完整备考体系 v2 · 数据保存在浏览器 · 换设备请用 导出/导入 或 GitHub 同步</footer>
+<div id="toast"></div>
+
+<script>
+"use strict";
+/* ================= 数据模型 v2 ================= */
+var TASK_DEFS = [
+  {id:"c4_listen", exam:"cet4", label:"四级听力精听 1 篇"},
+  {id:"c4_read",   exam:"cet4", label:"四级阅读 1 篇（选词/匹配/仔细）"},
+  {id:"c4_vocab",  exam:"cet4", label:"四级词汇 30 个"},
+  {id:"c6_listen", exam:"cet6", label:"六级听力精听 1 篇"},
+  {id:"c6_read",   exam:"cet6", label:"六级阅读 1 篇（选词/匹配/仔细）"},
+  {id:"c6_write",  exam:"cet6", label:"六级写作 1 篇"},
+  {id:"ky_vocab",  exam:"ky",   label:"考研词汇 50 个（新词）+ 复习 100"},
+  {id:"ky_read",   exam:"ky",   label:"考研英语二 阅读真题 2 篇"},
+  {id:"ky_trans",  exam:"ky",   label:"翻译练习 1 段"},
+  {id:"ky_write",  exam:"ky",   label:"写作素材/模板积累 30 分钟"}
+];
+var DEFAULT = {
+  version: 2,
+  updatedAt: "",
+  vocab:{kaoyan:1250, kaoyanTotal:5500, cet6:980, cet6Total:6000, cet4:2000, cet4Total:4500, dailyNew:50, dailyReview:100},
+  checkins:{},
+  tasks:[],
+  scores:[
+    {date:"2026-05", exam:"cet6", score:420},
+    {date:"2026-06", exam:"cet6", score:445},
+    {date:"2026-07", exam:"cet6", score:468},
+    {date:"2026-08", exam:"cet6", score:490}
+  ],
+  sectionScores:[],
+  papers:[],
+  mistakes:[],
+  vocabBook:[],
+  weeklyGoal:"",
+  goals:{cet6:550, cet4:500, kaoyan2:70}
+};
+var KEY = "studyProgress";
+var state = load();
+
+function load(){
+  try{
+    var raw = localStorage.getItem(KEY);
+    if(!raw) return JSON.parse(JSON.stringify(DEFAULT));
+    var d = JSON.parse(raw);
+    var m = JSON.parse(JSON.stringify(DEFAULT));
+    m.vocab = Object.assign({}, m.vocab, d.vocab||{});
+    m.goals = Object.assign({}, m.goals, d.goals||{});
+    m.checkins = d.checkins||{};
+    m.scores = Array.isArray(d.scores)? d.scores : m.scores;
+    m.sectionScores = Array.isArray(d.sectionScores)? d.sectionScores : [];
+    m.papers = Array.isArray(d.papers)? d.papers : [];
+    m.mistakes = Array.isArray(d.mistakes)? d.mistakes : [];
+    m.vocabBook = Array.isArray(d.vocabBook)? d.vocabBook : [];
+    m.tasks = Array.isArray(d.tasks)? d.tasks : [];
+    m.weeklyGoal = d.weeklyGoal || "";
+    m.version = d.version||1;
+    return m;
+  }catch(e){ return JSON.parse(JSON.stringify(DEFAULT)); }
+}
+function save(){
+  state.updatedAt = new Date().toISOString().slice(0,10);
+  localStorage.setItem(KEY, JSON.stringify(state,null,2));
+  toast("已保存 " + new Date().toLocaleTimeString("zh-CN",{hour:"2-digit",minute:"2-digit"}));
+}
+function toast(msg){
+  var t = document.getElementById("toast");
+  t.textContent = msg; t.classList.add("show");
+  clearTimeout(t._h); t._h = setTimeout(function(){t.classList.remove("show");},1800);
+}
+function todayStr(){
+  var d = new Date();
+  return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+}
+function daysUntil(target){
+  var now = new Date(); now.setHours(0,0,0,0);
+  var t = new Date(target+"T00:00:00");
+  return Math.round((t - now)/86400000);
+}
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function examName(e){ return e==="cet4"?"四级":(e==="cet6"?"六级":(e==="ky"?"考研二":"通用")); }
+function examCls(e){ return e==="cet4"?"c4":(e==="cet6"?"c6":(e==="ky"?"ky":"")); }
+function commit(){ localStorage.setItem(KEY, JSON.stringify(state)); }
+
+/* ================= 导航 ================= */
+var TABS = [
+  ["overview","总览"],["checkin","每日打卡"],["vocab","单词库"],
+  ["practice","真题·错题"],["scores","成绩追踪"],["tips","干货速查"],["progress","进度管理"]
+];
+function renderNav(){
+  var nav = document.getElementById("nav"); nav.innerHTML = "";
+  TABS.forEach(function(t){
+    var b = document.createElement("button");
+    b.textContent = t[1]; b.dataset.sec = t[0];
+    if(t[0]==="overview") b.classList.add("on");
+    b.onclick = function(){ switchSec(t[0]); };
+    nav.appendChild(b);
+  });
+}
+function switchSec(id){
+  document.querySelectorAll("nav button").forEach(function(b){ b.classList.toggle("on", b.dataset.sec===id); });
+  document.querySelectorAll(".sec").forEach(function(s){ s.classList.toggle("on", s.id==="sec-"+id); });
+}
+
+/* ================= 总览 ================= */
+function stageInfo(){
+  var d = daysUntil("2026-12-12");
+  if(d > 120) return ["基础期","还有时间打底：词汇过一遍 + 长难句 + 听力精听起步。每天 2-3 小时。"];
+  if(d > 60)  return ["强化期","核心得分期：阅读限时训练 + 真题分题型突破 + 作文模板成型。每天 3-4 小时。"];
+  if(d > 30)  return ["冲刺前期","整套真题模考（卡时间）+ 错题复盘 + 听力集中突破。每天 4 小时。"];
+  return ["冲刺期","回归真题错题 + 作文背熟 + 调整作息。保持手感，稳住心态。"];
+}
+function renderOverview(){
+  var cdKy = daysUntil("2026-12-26"), cdC6 = daysUntil("2026-12-12"), cdC4 = daysUntil("2026-12-12");
+  document.getElementById("cdKy").textContent = cdKy + " 天";
+  document.getElementById("cdCet6").textContent = cdC6 + " 天";
+  document.getElementById("cdCet4").textContent = cdC4 + " 天";
+  document.getElementById("ovKy").textContent = cdKy + " 天";
+  document.getElementById("ovCet6").textContent = cdC6 + " 天";
+  document.getElementById("ovCet4").textContent = cdC4 + " 天";
+  document.getElementById("goalKy").textContent = state.goals.kaoyan2 + " 分";
+  document.getElementById("goalCet6").textContent = state.goals.cet6 + " 分";
+  document.getElementById("goalCet4").textContent = state.goals.cet4 + " 分";
+  document.getElementById("ovDate").textContent = todayStr();
+  var st = stageInfo();
+  document.getElementById("ovStage").textContent = st[0];
+  document.getElementById("ovStageTip").textContent = "阶段建议：" + st[1];
+  var ck = state.checkins[todayStr()] || [];
+  var totalDays = Object.keys(state.checkins).length;
+  var book = state.vocabBook.length, due = dueCount();
+  var donePapers = state.papers.filter(function(p){ return p.score !== undefined && p.score !== null && p.score !== ""; }).length;
+  var avg = avgScore();
+  document.getElementById("ovKv").innerHTML =
+    "<b>今日打卡</b><span>"+ck.length+" / "+allTasks().length+"</span>"+
+    "<b>累计打卡</b><span>"+totalDays+" 天</span>"+
+    "<b>词汇进度</b><span>考研 "+state.vocab.kaoyan+" · 六级 "+state.vocab.cet6+" · 四级 "+state.vocab.cet4+"</span>"+
+    "<b>生词本</b><span>"+book+" 词"+(due>0?'（<span class=\"warn\">'+due+' 待复习</span>）':"")+"</span>"+
+    "<b>真题完成</b><span>"+donePapers+" 套</span>"+
+    "<b>错题积累</b><span>"+state.mistakes.length+" 条</span>"+
+    "<b>平均成绩</b><span>"+(avg>0? avg+" 分" : "暂无")+"</span>";
+  var wg = document.getElementById("wkGoal");
+  wg.value = state.weeklyGoal || "";
+  document.getElementById("wkShow").innerHTML = state.weeklyGoal ? "本周目标：<b>"+esc(state.weeklyGoal)+"</b>" : '<span class="small">还未设置本周目标，写一个吧（如：背完 350 词 + 2 套真题）</span>';
+}
+function avgScore(){
+  var arr = state.scores.map(function(s){ return Number(s.score); }).filter(function(v){ return v>0; });
+  if(!arr.length) return 0;
+  var sum = arr.reduce(function(a,b){ return a+b; }, 0);
+  return Math.round(sum/arr.length*10)/10;
+}
+
+/* ================= 打卡 ================= */
+function allTasks(){
+  return TASK_DEFS.concat(state.tasks);
+}
+function renderCheckin(){
+  var today = todayStr();
+  document.getElementById("ckDate").textContent = today;
+  var list = state.checkins[today] || [];
+  var box = document.getElementById("ckList"); box.innerHTML = "";
+  var groups = { cet4:[], cet6:[], ky:[], all:[] };
+  allTasks().forEach(function(t){ (groups[t.exam]||groups.all).push(t); });
+  ["cet4","cet6","ky"].forEach(function(ex){
+    if(!groups[ex].length) return;
+    var g = document.createElement("div");
+    g.className = "grp " + examCls(ex);
+    g.textContent = "◆ " + examName(ex) + " 任务";
+    box.appendChild(g);
+    groups[ex].forEach(function(t){ box.appendChild(taskRow(t, list)); });
+  });
+  if(groups.all.length){
+    var g2 = document.createElement("div");
+    g2.className = "grp";
+    g2.textContent = "◆ 通用任务";
+    box.appendChild(g2);
+    groups.all.forEach(function(t){ box.appendChild(taskRow(t, list)); });
+  }
+  document.getElementById("ckProgress").textContent = list.length+" / "+allTasks().length;
+  document.getElementById("ckStreak").textContent = calcStreak()+" 天";
+  document.getElementById("ckTotal").textContent = Object.keys(state.checkins).length+" 天";
+  renderCal();
+}
+function taskRow(t, list){
+  var lab = document.createElement("label");
+  lab.className = "ck" + (list.indexOf(t.id)>=0 ? " done":"");
+  lab.innerHTML = '<input type="checkbox"'+(list.indexOf(t.id)>=0?" checked":"")+'> <span>'+esc(t.label)+"</span>";
+  lab.querySelector("input").onchange = function(){ toggleTask(t.id, this.checked); };
+  return lab;
+}
+function toggleTask(id, on){
+  var today = todayStr();
+  if(!state.checkins[today]) state.checkins[today] = [];
+  var arr = state.checkins[today];
+  var i = arr.indexOf(id);
+  if(on && i<0) arr.push(id);
+  if(!on && i>=0) arr.splice(i,1);
+  if(!arr.length) delete state.checkins[today];
+  commit(); renderCheckin(); renderOverview();
+}
+function calcStreak(){
+  var n = 0, d = new Date(), scanned = 0;
+  while(scanned < 3660){
+    var key = d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+    var arr = state.checkins[key];
+    if(arr && arr.length){ n++; }
+    else if(n>0){ break; }
+    d.setDate(d.getDate()-1);
+    scanned++;
+  }
+  return n;
+}
+function renderCal(){
+  var now = new Date(), y = now.getFullYear(), mo = now.getMonth();
+  var first = new Date(y, mo, 1), days = new Date(y, mo+1, 0).getDate();
+  var startDow = first.getDay(); // 0=周日
+  var week = ["日","一","二","三","四","五","六"];
+  var html = '<div class="w">'+week.join('</div><div class="w">')+'</div>';
+  for(var i=0;i<startDow;i++) html += '<div class="d"></div>';
+  for(var day=1; day<=days; day++){
+    var key = y+"-"+String(mo+1).padStart(2,"0")+"-"+String(day).padStart(2,"0");
+    var hot = (state.checkins[key]||[]).length > 0;
+    var isT = key === todayStr();
+    html += '<div class="d'+(hot?" hot":"")+(isT?" today":"")+'">'+day+"</div>";
+  }
+  document.getElementById("ckCal").innerHTML = html;
+}
+function dueCount(){
+  var today = todayStr(), n = 0;
+  state.vocabBook.forEach(function(w){
+    var gap = daysBetween(w.added, today);
+    if(gap===1||gap===2||gap===4||gap===7||gap===15) n++;
+  });
+  return n;
+}
+function daysBetween(a, b){
+  return Math.round((new Date(b+"T00:00:00") - new Date(a+"T00:00:00"))/86400000);
+}
+
+/* ================= 单词库 ================= */
+function renderVocab(){
+  var v = state.vocab;
+  document.getElementById("vKyTxt").textContent = v.kaoyan+" / "+v.kaoyanTotal+"（"+(v.kaoyanTotal?Math.round(v.kaoyan/v.kaoyanTotal*100):0)+"%）";
+  document.getElementById("vKyBar").style.width = Math.min(100, v.kaoyan/v.kaoyanTotal*100)+"%";
+  document.getElementById("vCet6Txt").textContent = v.cet6+" / "+v.cet6Total+"（"+(v.cet6Total?Math.round(v.cet6/v.cet6Total*100):0)+"%）";
+  document.getElementById("vCet6Bar").style.width = Math.min(100, v.cet6/v.cet6Total*100)+"%";
+  document.getElementById("vCet4Txt").textContent = v.cet4+" / "+v.cet4Total+"（"+(v.cet4Total?Math.round(v.cet4/v.cet4Total*100):0)+"%）";
+  document.getElementById("vCet4Bar").style.width = Math.min(100, v.cet4/v.cet4Total*100)+"%";
+  document.getElementById("vNew").value = v.dailyNew;
+  document.getElementById("vRev").value = v.dailyReview;
+  renderVocabBook();
+}
+function bumpVocab(which, delta){
+  var v = state.vocab;
+  var total = which==="ky" ? v.kaoyanTotal : (which==="cet4" ? v.cet4Total : v.cet6Total);
+  var cur = which==="ky" ? v.kaoyan : (which==="cet4" ? v.cet4 : v.cet6);
+  cur = Math.max(0, Math.min(total, cur+delta));
+  if(which==="ky") v.kaoyan = cur; else if(which==="cet4") v.cet4 = cur; else v.cet6 = cur;
+  commit(); renderVocab(); renderOverview();
+}
+function renderVocabBook(){
+  var today = todayStr();
+  document.getElementById("vbCount").textContent = state.vocabBook.length + " 词";
+  var due = dueCount();
+  var dueEl = document.getElementById("vbDue");
+  if(due>0){ dueEl.textContent = due + " 词待复习"; dueEl.style.display = ""; } else { dueEl.textContent = "无待复习"; dueEl.style.display = ""; }
+  var box = document.getElementById("vbList"); box.innerHTML = "";
+  if(!state.vocabBook.length){ box.innerHTML = '<div class="small">还没有生词，从做题遇到的生词开始积累吧。</div>'; return; }
+  state.vocabBook.forEach(function(w, i){
+    var gap = daysBetween(w.added, today);
+    var dueNow = gap===1||gap===2||gap===4||gap===7||gap===15;
+    var row = document.createElement("div");
+    row.className = "ck" + (dueNow ? "" : "");
+    row.style.background = dueNow ? "rgba(255,183,77,.12)" : "var(--card2)";
+    row.innerHTML = '<span><b>'+esc(w.word)+'</b> <span class="'+examCls(w.exam)+'">['+examName(w.exam)+']</span> '+esc(w.meaning)+'</span>'+
+      '<span style="margin-left:auto;font-size:12px" class="small">'+esc(w.added)+
+      (dueNow?' <span class="warn">· 今日复习</span>':'')+'</span>'+
+      '<button class="btn gray sm" data-vb-rm="'+i+'" style="margin-left:8px">删</button>';
+    row.querySelector("[data-vb-rm]").onclick = function(){ state.vocabBook.splice(Number(this.dataset.vbRm),1); commit(); renderVocabBook(); renderOverview(); };
+    box.appendChild(row);
+  });
+}
+
+/* ================= 真题 + 错题 ================= */
+function renderPractice(){
+  var tb = document.getElementById("ppTable");
+  var rows = '<tr><th>考试</th><th>套号</th><th>状态</th><th>得分</th><th></th></tr>';
+  if(!state.papers.length) rows += '<tr><td colspan="5" class="small">还没登记真题，从「登记」开始吧。</td></tr>';
+  state.papers.slice().reverse().forEach(function(p, i){
+    var idx = state.papers.length - 1 - i;
+    var done = p.score !== undefined && p.score !== null && p.score !== "";
+    rows += '<tr><td class="'+examCls(p.exam)+'">'+examName(p.exam)+'</td><td>'+esc(p.no)+'</td>'+
+            '<td>'+(done?'<span class="ok">已完成</span>':'<span class="warn">待做</span>')+'</td>'+
+            '<td>'+(done?p.score+" 分":"—")+'</td>'+
+            '<td><button class="btn gray sm" data-pp-rm="'+idx+'">删</button></td></tr>';
+  });
+  tb.innerHTML = rows;
+  Array.prototype.forEach.call(tb.querySelectorAll("[data-pp-rm]"), function(b){
+    b.onclick = function(){ state.papers.splice(Number(b.dataset.ppRm),1); commit(); renderPractice(); renderOverview(); };
+  });
+  var doneN = state.papers.filter(function(p){ return p.score !== undefined && p.score !== null && p.score !== ""; }).length;
+  document.getElementById("ppCount").textContent = doneN + " / " + state.papers.length + " 套已完成";
+  renderMistakes();
+}
+function renderMistakes(){
+  document.getElementById("mbCount").textContent = state.mistakes.length + " 条";
+  var stats = {};
+  state.mistakes.forEach(function(m){
+    var k = examName(m.exam) + "·" + m.section;
+    stats[k] = (stats[k]||0) + 1;
+  });
+  var keys = Object.keys(stats);
+  var sHtml = keys.length ? keys.map(function(k){ return "<b>"+k+"</b><span>"+stats[k]+" 条</span>"; }).join("") : "<b>暂无错题统计</b><span>记录错题后会按 考试·题型 汇总</span>";
+  document.getElementById("mbStats").innerHTML = sHtml;
+  var tb = document.getElementById("mbTable");
+  var rows = '<tr><th>日期</th><th>考试</th><th>题型</th><th>原因</th><th>备注</th><th></th></tr>';
+  if(!state.mistakes.length) rows += '<tr><td colspan="6" class="small">还没有错题记录。</td></tr>';
+  state.mistakes.slice().reverse().forEach(function(m, i){
+    var idx = state.mistakes.length - 1 - i;
+    rows += '<tr><td>'+esc(m.date)+'</td><td class="'+examCls(m.exam)+'">'+examName(m.exam)+'</td><td>'+esc(m.section)+'</td><td>'+esc(m.reason)+'</td><td>'+esc(m.note||"")+'</td><td><button class="btn gray sm" data-mb-rm="'+idx+'">删</button></td></tr>';
+  });
+  tb.innerHTML = rows;
+  Array.prototype.forEach.call(tb.querySelectorAll("[data-mb-rm]"), function(b){
+    b.onclick = function(){ state.mistakes.splice(Number(b.dataset.mbRm),1); commit(); renderMistakes(); renderOverview(); };
+  });
+}
+
+/* ================= 成绩追踪 ================= */
+function renderScores(){
+  var filter = document.getElementById("scFilter").value;
+  var list = filter==="all" ? state.scores : state.scores.filter(function(s){ return s.exam===filter; });
+  document.getElementById("scFilterTag").textContent = filter==="all" ? "全部" : examName(filter);
+  var wrap = document.getElementById("scoreChart");
+  if(!list.length){ wrap.innerHTML = '<div class="small">暂无该考试的成绩记录</div>'; }
+  else{
+    var W=680, H=220, pad=42;
+    var vals = list.map(function(s){ return Number(s.score); });
+    var max = Math.max.apply(null, vals), min = Math.min.apply(null, vals);
+    if(max===min){ max += 10; min = Math.max(0, min-10); }
+    var span = max-min || 1;
+    var X = function(i){ return pad + (W-pad*1.6)*i/(list.length-1); };
+    var Y = function(v){ return H-pad - (H-pad*2)*(v-min)/span; };
+    var pts = list.map(function(s,i){ return X(i).toFixed(1)+","+Y(s.score).toFixed(1); }).join(" ");
+    var html = '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;min-width:520px;height:auto">';
+    for(var g=0; g<=4; g++){
+      var gy = pad + (H-pad*2)*g/4;
+      html += '<line x1="'+pad+'" y1="'+gy+'" x2="'+(W-pad*1.6)+'" y2="'+gy+'" stroke="#2a3052" stroke-width="1"/>';
+      html += '<text x="'+(pad-8)+'" y="'+(gy+4)+'" text-anchor="end">'+Math.round(max-span*g/4)+"</text>";
+    }
+    list.forEach(function(s,i){ html += '<text x="'+X(i)+'" y="'+(H-14)+'" text-anchor="middle">'+esc(s.date)+"</text>"; });
+    html += '<polyline points="'+pts+'" fill="none" stroke="#5b8cff" stroke-width="2.5"/>';
+    list.forEach(function(s,i){
+      html += '<circle cx="'+X(i)+'" cy="'+Y(s.score)+'" r="4" fill="#7c5bff"/>';
+      html += '<text x="'+X(i)+'" y="'+(Y(s.score)-9)+'" text-anchor="middle" fill="#e8eaf6">'+s.score+"</text>";
+    });
+    html += "</svg>";
+    wrap.innerHTML = html;
+  }
+  /* 统计 */
+  var arr = state.scores.map(function(s){ return Number(s.score); }).filter(function(v){ return v>0; });
+  var avg = arr.length ? Math.round(arr.reduce(function(a,b){return a+b;},0)/arr.length*10)/10 : 0;
+  var mx = arr.length ? Math.max.apply(null, arr) : 0;
+  var latest = state.scores.length ? state.scores[state.scores.length-1] : null;
+  document.getElementById("scStats").innerHTML =
+    "<b>平均分</b><span>"+(avg||"—")+"</span>"+
+    "<b>最高分</b><span>"+(mx||"—")+"</span>"+
+    "<b>最近一次</b><span>"+(latest ? examName(latest.exam)+" "+latest.date+"："+latest.score+" 分" : "暂无")+"</span>";
+  /* 总分表 */
+  var tb = document.getElementById("scTable");
+  var rows = '<tr><th>日期</th><th>考试</th><th>总分</th><th></th></tr>';
+  if(!state.scores.length) rows += '<tr><td colspan="4" class="small">暂无总分记录</td></tr>';
+  state.scores.slice().reverse().forEach(function(s, i){
+    var idx = state.scores.length - 1 - i;
+    rows += '<tr><td>'+esc(s.date)+'</td><td class="'+examCls(s.exam)+'">'+examName(s.exam)+'</td><td>'+Number(s.score)+' 分</td><td><button class="btn gray sm" data-sc-rm="'+idx+'">删</button></td></tr>';
+  });
+  tb.innerHTML = rows;
+  Array.prototype.forEach.call(tb.querySelectorAll("[data-sc-rm]"), function(b){
+    b.onclick = function(){ state.scores.splice(Number(b.dataset.scRm),1); commit(); renderScores(); renderOverview(); };
+  });
+  /* 分题型表 */
+  var stb = document.getElementById("ssTable");
+  var srows = '<tr><th>日期</th><th>考试</th><th>题型</th><th>得分/满分</th><th>正确率</th><th></th></tr>';
+  if(!state.sectionScores.length) srows += '<tr><td colspan="6" class="small">暂无分题型记录，便于追踪强弱项。</td></tr>';
+  state.sectionScores.slice().reverse().forEach(function(s, i){
+    var idx = state.sectionScores.length - 1 - i;
+    var rate = Number(s.total)>0 ? Math.round(Number(s.score)/Number(s.total)*100)+"%" : "—";
+    srows += '<tr><td>'+esc(s.date)+'</td><td class="'+examCls(s.exam)+'">'+examName(s.exam)+'</td><td>'+esc(s.section)+'</td><td>'+Number(s.score)+" / "+Number(s.total)+'</td><td>'+rate+'</td><td><button class="btn gray sm" data-ss-rm="'+idx+'">删</button></td></tr>';
+  });
+  stb.innerHTML = srows;
+  Array.prototype.forEach.call(stb.querySelectorAll("[data-ss-rm]"), function(b){
+    b.onclick = function(){ state.sectionScores.splice(Number(b.dataset.ssRm),1); commit(); renderScores(); };
+  });
+}
+
+/* ================= 干货（阶段清单动态） ================= */
+function renderTips(){
+  var st = stageInfo();
+  document.getElementById("tipStage").innerHTML = "<b>"+st[0]+"</b>（距首考 "+daysUntil("2026-12-12")+" 天）<br>"+st[1];
+}
+
+/* ================= 进度管理 ================= */
+function renderProgress(){
+  var totalDays = Object.keys(state.checkins).length;
+  var last = Object.keys(state.checkins).sort().pop() || "—";
+  var avg = avgScore();
+  var donePapers = state.papers.filter(function(p){ return p.score !== undefined && p.score !== null && p.score !== ""; }).length;
+  document.getElementById("pgKv").innerHTML =
+    "<b>上次保存</b><span>"+(state.updatedAt||"—")+"</span>"+
+    "<b>累计打卡</b><span>"+totalDays+" 天（最近 "+last+"）</span>"+
+    "<b>词汇</b><span>考研 "+state.vocab.kaoyan+" · 六级 "+state.vocab.cet6+" · 四级 "+state.vocab.cet4+"</span>"+
+    "<b>生词本</b><span>"+state.vocabBook.length+" 词 · "+dueCount()+" 待复习</span>"+
+    "<b>真题</b><span>"+donePapers+" / "+state.papers.length+" 套</span>"+
+    "<b>错题</b><span>"+state.mistakes.length+" 条</span>"+
+    "<b>成绩</b><span>"+state.scores.length+" 条总分 · "+state.sectionScores.length+" 条分题型 · 平均 "+(avg||"—")+"</span>";
+  document.getElementById("gCet4").value = state.goals.cet4;
+  document.getElementById("gCet6").value = state.goals.cet6;
+  document.getElementById("gKy").value = state.goals.kaoyan2;
+}
+function doExport(){
+  var json = JSON.stringify(state,null,2);
+  document.getElementById("pgText").value = json;
+  var blob = new Blob([json],{type:"application/json"});
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "study-progress-"+todayStr()+".json";
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },500);
+  toast("已导出 study-progress-"+todayStr()+".json");
+}
+function applyJson(text){
+  try{
+    var d = JSON.parse(text);
+    if(!d || typeof d!=="object") throw 0;
+    var m = JSON.parse(JSON.stringify(DEFAULT));
+    m.vocab = Object.assign({}, m.vocab, d.vocab||{});
+    m.goals = Object.assign({}, m.goals, d.goals||{});
+    m.checkins = d.checkins||{};
+    m.scores = Array.isArray(d.scores)? d.scores : [];
+    m.sectionScores = Array.isArray(d.sectionScores)? d.sectionScores : [];
+    m.papers = Array.isArray(d.papers)? d.papers : [];
+    m.mistakes = Array.isArray(d.mistakes)? d.mistakes : [];
+    m.vocabBook = Array.isArray(d.vocabBook)? d.vocabBook : [];
+    m.tasks = Array.isArray(d.tasks)? d.tasks : [];
+    m.weeklyGoal = d.weeklyGoal || "";
+    m.version = 2;
+    state = m; commit();
+    renderAll();
+    toast("导入成功 ✅");
+  }catch(e){ toast("导入失败：JSON 格式不正确 ❌"); }
+}
+
+/* ================= GitHub 同步 ================= */
+var ghSettings = (function(){ try{ return JSON.parse(localStorage.getItem("ghSettings")||"{}"); }catch(e){ return {}; } })();
+function ghSaveSettings(){ localStorage.setItem("ghSettings", JSON.stringify(ghSettings)); }
+function b64utf8(str){
+  var bytes = new TextEncoder().encode(str), bin = "";
+  bytes.forEach(function(b){ bin += String.fromCharCode(b); });
+  return btoa(bin);
+}
+function fromB64(b64){
+  var bin = atob(b64), bytes = new Uint8Array(bin.length);
+  for(var i=0;i<bin.length;i++) bytes[i] = bin.charCodeAt(i);
+  return new TextDecoder().decode(bytes);
+}
+async function ghReq(path, method, body){
+  var headers = { "Accept":"application/vnd.github+json" };
+  if(ghSettings.token) headers["Authorization"] = "token " + ghSettings.token;
+  var opt = { method: method, headers: headers };
+  if(body) opt.body = JSON.stringify(body);
+  var r = await fetch("https://api.github.com" + path, opt);
+  var t = await r.text(), j = null;
+  try{ j = JSON.parse(t); }catch(e){}
+  if(!r.ok) throw new Error(j && j.message ? j.message : ("HTTP " + r.status));
+  return j;
+}
+function ghStatus(msg){ var el = document.getElementById("ghStatus"); if(el) el.textContent = msg; }
+async function ghPush(){
+  var mode = document.getElementById("ghMode").value;
+  var target = document.getElementById("ghTarget").value.trim();
+  ghSettings.mode = mode; ghSettings.target = target;
+  ghSettings.token = document.getElementById("ghToken").value.trim();
+  ghSaveSettings();
+  if(!ghSettings.token){ ghStatus("请先填写 GitHub 个人访问令牌（PAT）"); return; }
+  var json = JSON.stringify(state, null, 2);
+  ghStatus("推送中…");
+  try{
+    if(mode === "gist"){
+      if(ghSettings.gistId){
+        await ghReq("/gists/" + ghSettings.gistId, "PATCH", { files:{ "study-progress.json":{ content: json } } });
+      }else{
+        var g = await ghReq("/gists", "POST", { description:"英语学习工作台进度", public:false, files:{ "study-progress.json":{ content: json } } });
+        ghSettings.gistId = g.id; ghSaveSettings();
+        document.getElementById("ghTarget").value = g.id;
+      }
+    }else{
+      var parts = target.split("/");
+      if(parts.length !== 2){ ghStatus("仓库模式请填 owner/repo"); return; }
+      var path = "/repos/" + parts[0] + "/" + parts[1] + "/contents/study-progress.json";
+      var sha = null;
+      try{ sha = (await ghReq(path, "GET")).sha; }catch(e){}
+      var payload = { message:"更新学习进度 " + new Date().toISOString(), content: b64utf8(json) };
+      if(sha) payload.sha = sha;
+      await ghReq(path, "PUT", payload);
+    }
+    ghStatus("✅ 已推送到 GitHub（" + new Date().toLocaleTimeString("zh-CN",{hour:"2-digit",minute:"2-digit"}) + "）");
+    toast("已推送到 GitHub");
+  }catch(e){ ghStatus("❌ 推送失败：" + e.message); }
+}
+async function ghPull(){
+  var mode = document.getElementById("ghMode").value;
+  var target = document.getElementById("ghTarget").value.trim();
+  ghSettings.mode = mode; ghSettings.target = target;
+  ghSettings.token = document.getElementById("ghToken").value.trim();
+  ghSaveSettings();
+  ghStatus("拉取中…");
+  try{
+    var content;
+    if(mode === "gist"){
+      if(!target){ ghStatus("请填写 Gist ID（或先推送一次自动创建）"); return; }
+      var g = await ghReq("/gists/" + target, "GET");
+      if(!g.files || !g.files["study-progress.json"]){ ghStatus("该 Gist 里没有 study-progress.json"); return; }
+      content = g.files["study-progress.json"].content;
+    }else{
+      var parts = target.split("/");
+      if(parts.length !== 2){ ghStatus("仓库模式请填 owner/repo"); return; }
+      var ex = await ghReq("/repos/" + parts[0] + "/" + parts[1] + "/contents/study-progress.json", "GET");
+      content = fromB64(ex.content);
+    }
+    applyJson(content);
+    ghStatus("✅ 已从 GitHub 拉取并应用");
+  }catch(e){ ghStatus("❌ 拉取失败：" + e.message); }
+}
+
+/* ================= 渲染入口 ================= */
+function renderAll(){
+  renderNav(); renderOverview(); renderCheckin(); renderVocab(); renderPractice(); renderScores(); renderTips(); renderProgress();
+  var today = todayStr();
+  document.getElementById("sDate").value = today.slice(0,7)+"-01";
+  document.getElementById("ssDate").value = today.slice(0,7)+"-01";
+}
+
+/* ================= 事件绑定 ================= */
+document.addEventListener("DOMContentLoaded", function(){
+  renderAll();
+  document.querySelectorAll("[data-vocab]").forEach(function(b){
+    b.onclick = function(){ bumpVocab(b.dataset.vocab, Number(b.dataset.d)); };
+  });
+  document.getElementById("vSave").onclick = function(){
+    var n = Number(document.getElementById("vNew").value)||0;
+    var r = Number(document.getElementById("vRev").value)||0;
+    state.vocab.dailyNew = Math.max(0,n); state.vocab.dailyReview = Math.max(0,r);
+    commit(); renderVocab(); toast("每日节奏已保存");
+  };
+  document.getElementById("wkSave").onclick = function(){
+    state.weeklyGoal = document.getElementById("wkGoal").value.trim();
+    commit(); renderOverview(); toast("周目标已保存");
+  };
+  document.getElementById("ckAdd").onclick = function(){
+    var label = document.getElementById("ckNew").value.trim();
+    if(!label){ toast("请输入任务内容"); return; }
+    state.tasks.push({ id:"u"+Date.now(), exam: document.getElementById("ckExam").value, label: label });
+    document.getElementById("ckNew").value = "";
+    commit(); renderCheckin(); toast("自定义任务已添加");
+  };
+  document.getElementById("vbAdd").onclick = function(){
+    var w = document.getElementById("vbWord").value.trim();
+    var m = document.getElementById("vbMean").value.trim();
+    if(!w || !m){ toast("请填写单词和释义"); return; }
+    state.vocabBook.push({ word:w, meaning:m, exam: document.getElementById("vbExam").value, added: todayStr() });
+    document.getElementById("vbWord").value = "";
+    document.getElementById("vbMean").value = "";
+    commit(); renderVocab(); renderOverview(); toast("已加入生词本");
+  };
+  document.getElementById("ppAdd").onclick = function(){
+    var no = document.getElementById("ppNo").value.trim();
+    if(!no){ toast("请填套号"); return; }
+    var sc = document.getElementById("ppScore").value;
+    state.papers.push({ exam: document.getElementById("ppExam").value, no: no, score: sc===""?undefined:Number(sc) });
+    document.getElementById("ppNo").value = "";
+    document.getElementById("ppScore").value = "";
+    commit(); renderPractice(); renderOverview(); toast("真题已登记");
+  };
+  document.getElementById("mbAdd").onclick = function(){
+    var reason = document.getElementById("mbReason").value.trim();
+    if(!reason){ toast("请填写错误原因"); return; }
+    state.mistakes.push({ date: todayStr(), exam: document.getElementById("mbExam").value, section: document.getElementById("mbSection").value, reason: reason, note: document.getElementById("mbNote").value.trim() });
+    document.getElementById("mbReason").value = "";
+    document.getElementById("mbNote").value = "";
+    commit(); renderMistakes(); renderOverview(); toast("错题已记录");
+  };
+  document.getElementById("sAdd").onclick = function(){
+    var date = document.getElementById("sDate").value || todayStr().slice(0,7);
+    var exam = document.getElementById("sExam").value;
+    var sc = Number(document.getElementById("sScore").value);
+    if(!(sc>0)){ toast("请输入有效分数"); return; }
+    state.scores.push({ date: date, exam: exam, score: sc });
+    commit();
+    document.getElementById("sScore").value = "";
+    renderScores(); renderOverview(); toast("成绩已记录");
+  };
+  document.getElementById("ssAdd").onclick = function(){
+    var date = document.getElementById("ssDate").value || todayStr().slice(0,7);
+    var exam = document.getElementById("ssExam").value;
+    var section = document.getElementById("ssSection").value;
+    var sc = Number(document.getElementById("ssScore").value);
+    var total = Number(document.getElementById("ssTotal").value)||0;
+    if(!(sc>0) || !(total>0)){ toast("请填写得分和满分"); return; }
+    state.sectionScores.push({ date: date, exam: exam, section: section, score: sc, total: total });
+    commit();
+    document.getElementById("ssScore").value = "";
+    renderScores(); toast("分题型成绩已记录");
+  };
+  document.getElementById("scFilter").onchange = renderScores;
+  document.getElementById("gSave").onclick = function(){
+    state.goals.cet4 = Number(document.getElementById("gCet4").value)||0;
+    state.goals.cet6 = Number(document.getElementById("gCet6").value)||0;
+    state.goals.kaoyan2 = Number(document.getElementById("gKy").value)||0;
+    commit(); renderProgress(); renderOverview(); toast("目标已保存");
+  };
+  document.getElementById("pgSave").onclick = save;
+  document.getElementById("pgExport").onclick = doExport;
+  document.getElementById("pgImport").onclick = function(){ document.getElementById("pgFile").click(); };
+  document.getElementById("pgFile").onchange = function(){
+    var f = this.files[0]; if(!f) return;
+    var rd = new FileReader();
+    rd.onload = function(){ applyJson(String(rd.result)); };
+    rd.readAsText(f);
+    this.value = "";
+  };
+  document.getElementById("pgApply").onclick = function(){
+    applyJson(document.getElementById("pgText").value);
+  };
+  document.getElementById("pgReset").onclick = function(){
+    if(!confirm("确定清空所有进度并恢复默认？")) return;
+    state = JSON.parse(JSON.stringify(DEFAULT));
+    commit(); renderAll(); toast("已重置");
+  };
+  document.getElementById("ghMode").value = ghSettings.mode || "gist";
+  document.getElementById("ghTarget").value = ghSettings.target || "";
+  document.getElementById("ghToken").value = ghSettings.token || "";
+  document.getElementById("ghPush").onclick = ghPush;
+  document.getElementById("ghPull").onclick = ghPull;
+});
+</script>
+</body>
+</html>
