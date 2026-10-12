@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>2027 考研作战计划（打印版）</title>
+<style>
+  @page { size: A4 portrait; margin: 13mm 11mm 14mm 11mm; }
+
+  * { box-sizing: border-box; }
+
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  body {
+    font-family: "Microsoft YaHei", "微软雅黑", "PingFang SC", sans-serif;
+    font-size: 10pt;
+    line-height: 1.55;
+    color: #1a1a1a;
+    margin: 0;
+    padding: 0;
+  }
+
+  .sheet { max-width: 188mm; margin: 0 auto; }
+
+  /* ---------- 屏幕上的打印提示（不打印） ---------- */
+  .screen-only {
+    background: #fff8e1; border: 1px solid #d9a404; border-left: 4px solid #d9a404;
+    padding: 8px 12px; margin: 0 0 14px; font-size: 9pt; color: #7a5200;
+  }
+  @media print { .screen-only { display: none !important; } }
+
+  /* ---------- 标题 ---------- */
+  h1 {
+    font-size: 19pt; color: #1F4E79; margin: 0 0 2px;
+    letter-spacing: 1px; font-weight: 700;
+  }
+  .subtitle { font-size: 9.5pt; color: #666; margin: 0 0 10px; }
+  h2 {
+    font-size: 12.5pt; color: #1F4E79; margin: 16px 0 7px;
+    padding: 3px 0 3px 8px; border-left: 4px solid #1F4E79;
+    background: #f2f6fb; font-weight: 700;
+  }
+  h3 { font-size: 10.5pt; color: #1F4E79; margin: 11px 0 5px; font-weight: 700; }
+
+  .rule { height: 2px; background: #1F4E79; margin: 6px 0 14px; }
+
+  p { margin: 4px 0; }
+  ul { margin: 4px 0 4px 0; padding-left: 17px; }
+  li { margin: 2px 0; }
+
+  /* ---------- 表格 ---------- */
+  table { width: 100%; border-collapse: collapse; margin: 6px 0 10px; }
+  th {
+    background: #1F4E79; color: #fff; font-weight: 600;
+    padding: 4px 6px; text-align: left; font-size: 9pt;
+    border: 1px solid #1F4E79;
+  }
+  td { padding: 3.5px 6px; border: 1px solid #b8cfe6; font-size: 9pt; vertical-align: top; }
+  tbody tr:nth-child(even) td { background: #f5f9fd; }
+  table.compact td, table.compact th { padding: 2.5px 5px; font-size: 8.5pt; }
+  .c { text-align: center; }
+  .hi { color: #b00020; font-weight: 700; }
+  .ok { color: #1F6B3B; font-weight: 700; }
+
+  /* ---------- 倒计时卡片 ---------- */
+  .cd-wrap { display: table; width: 100%; table-layout: fixed; border-spacing: 6px 0; margin: 4px 0 10px; }
+  .cd {
+    display: table-cell; width: 33.33%; border: 1.5px solid #1F4E79;
+    background: #f2f6fb; padding: 8px 6px; text-align: center; vertical-align: middle;
+  }
+  .cd .lab { font-size: 9pt; color: #1F4E79; font-weight: 600; }
+  .cd .date { font-size: 9pt; color: #555; margin-top: 1px; }
+  .cd .num { font-size: 20pt; font-weight: 700; color: #b00020; line-height: 1.1; margin: 1px 0; }
+  .cd .num small { font-size: 10pt; font-weight: 400; color: #555; }
+
+  /* ---------- 提示框 ---------- */
+  .box { border: 1px solid #9DC3E6; background: #f7fbfe; padding: 7px 10px; margin: 7px 0; }
+  .warn { border: 1px solid #d9a404; border-left: 4px solid #d9a404; background: #fffdf5; padding: 7px 10px; margin: 7px 0; }
+  .warn b { color: #9C6500; }
+
+  /* ---------- 分页 ---------- */
+  .pb { break-before: page; page-break-before: always; }
+  tr, .box, .warn { break-inside: avoid; page-break-inside: avoid; }
+
+  /* ---------- 时间表 ---------- */
+  .sched td:first-child { width: 21mm; font-weight: 600; color: #1F4E79; white-space: nowrap; }
+  .sched td:nth-child(2) { width: 46mm; font-weight: 600; }
+  .sched td:nth-child(4) { width: 15mm; text-align: center; color: #666; font-size: 8pt; }
+  .prio-core td:nth-child(4) { color: #b00020; font-weight: 700; }
+  .prio-core td:nth-child(2) { color: #b00020; }
+
+  /* ---------- 打卡表 ---------- */
+  .check td { height: 7.2mm; }
+  .check td:first-child { width: 46mm; font-weight: 600; }
+  .blank { background: #fff !important; }
+  .write { border-bottom: 1px solid #999; height: 14px; }
+
+  .small { font-size: 8.5pt; color: #555; }
+  .tick { font-family: monospace; }
+  .nb { page-break-inside: avoid; }
+  .two-col { display: table; width: 100%; table-layout: fixed; border-spacing: 8px 0; }
+  .two-col > div { display: table-cell; vertical-align: top; }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+<div class="screen-only">
+  <b>打印说明</b>：按 <b>Ctrl + P</b> → 纸张 A4 → 边距「默认」→ 勾选「背景图形」→ 即可打印。
+  本页提示不会被打印出来。已同时生成 PDF 版本（<code>备考计划_打印版.pdf</code>），可直接打印。
+</div>
+
+<!-- ==================== 第 1 页：总览 ==================== -->
+<h1>2027 考研作战计划</h1>
+<p class="subtitle">
+  目标院校：中国财政科学研究院 · 会计专硕(MPAcc) / 审计专硕(MAud)　|　
+  初试科目：199 管理类综合能力 + 204 英语二　|　制表日期：2026-09-17
+</p>
+<div class="rule"></div>
+
+<h2>一、倒计时</h2>
+<div class="cd-wrap">
+  <div class="cd">
+    <div class="lab">六级笔试</div>
+    <div class="date">2026-12-12 15:00</div>
+    <div class="num">86<small> 天</small></div>
+    <div class="date">目标：425 过线</div>
+  </div>
+  <div class="cd">
+    <div class="lab">考研初试</div>
+    <div class="date">2026-12-19</div>
+    <div class="num">93<small> 天</small></div>
+    <div class="date">管综上午 · 英二下午</div>
+  </div>
+  <div class="cd">
+    <div class="lab">六级与初试间隔</div>
+    <div class="date">12-12 → 12-19</div>
+    <div class="num">7<small> 天</small></div>
+    <div class="date">12 月上半月是关键</div>
+  </div>
+</div>
+
+<h2>二、目标分数（按财科院分数线校准）</h2>
+
+<h3>财科院历年复试线（总分 / 管综 / 外语）</h3>
+<table class="compact">
+  <thead>
+    <tr><th>年份</th><th class="c">会计 MPAcc</th><th class="c">审计 MAud</th><th>备注</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>2021</td><td class="c">218 / 92 / 46</td><td class="c">—</td><td></td></tr>
+    <tr><td>2022</td><td class="c">228 / 100 / 50</td><td class="c">—</td><td></td></tr>
+    <tr><td>2023</td><td class="c">230 / 102 / 51</td><td class="c">230</td><td></td></tr>
+    <tr><td>2024</td><td class="c hi">242 / 104 / 52</td><td class="c">231</td><td class="hi">近五年最高，必须按此标准准备</td></tr>
+    <tr><td>2025</td><td class="c">225 / 96 / 48</td><td class="c">221</td><td>回落至国家线，属偶然</td></tr>
+  </tbody>
+</table>
+
+<div class="warn">
+  <b>核心结论：总分目标定为 246，不是 225–240。</b>
+  会计专硕近五年最高线 242；过线也不等于录取。会计与审计初试科目完全相同，
+  因此<b>先按 246 准备，10 月报名时再决定考会计还是审计</b>（2026 年审计计划扩招至 35 人）。
+</div>
+
+<h3>本人目标分数表</h3>
+<table>
+  <thead>
+    <tr><th>科目</th><th class="c">目标分</th><th class="c">错题预算</th><th>关键杠杆</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>数学</td><td class="c"><b>66</b></td><td class="c">≤ 3 题</td><td>几何（圆弧/割补/截面）、概率统计、条件充分性判断</td></tr>
+    <tr><td>逻辑</td><td class="c"><b>54</b></td><td class="c">≤ 3 题</td><td>形式逻辑秒杀化 + 分析推理画板化 + 论证逻辑链条化</td></tr>
+    <tr><td>写作</td><td class="c"><b>46</b></td><td class="c">—</td><td>论证有效性分析 22+ / 论说文 24+，靠固定输出量堆出来</td></tr>
+    <tr><td>管综小计</td><td class="c"><b>166</b></td><td class="c">—</td><td>基础题不丢分，难题敢舍弃</td></tr>
+    <tr><td>英语二</td><td class="c"><b>80</b></td><td class="c">阅读 ≤ 2–3 题</td><td>精读错题段落、拆长难句、建干扰项陷阱档案</td></tr>
+    <tr><td>总分</td><td class="c hi"><b>246</b></td><td class="c">—</td><td class="hi">对标 2024 年 242 分线，留 4 分缓冲</td></tr>
+    <tr><td>六级</td><td class="c"><b>425</b></td><td class="c">—</td><td>上次 308 分，需 +117；仅需过线，不作为高分目标</td></tr>
+  </tbody>
+</table>
+
+<h2>三、一条主线：英语只练一套，考两个试</h2>
+<div class="box">
+  <p><b>六级与考研初试只隔 7 天，两套英语体系并行必然崩盘。</b>所以按「一套主线、两个出口」执行：</p>
+  <table class="compact" style="margin-bottom:2px">
+    <thead><tr><th>板块</th><th>归属</th><th>怎么练</th></tr></thead>
+    <tbody>
+      <tr><td>阅读</td><td>一套共用</td><td>英语二真题精读带动（六级阅读难度与之接近）</td></tr>
+      <tr><td>写作 / 翻译</td><td>一套共用</td><td>英语二模板直接迁移，考前各加背 3 篇</td></tr>
+      <tr><td>词汇</td><td>一套共用</td><td>每天必做，六级词表优先（六级要 5500+，考研 5500）</td></tr>
+      <tr><td><b>听力</b></td><td class="hi">六级独有</td><td class="hi">只有这个必须单独练，每周 3 次 × 40 分钟</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ==================== 第 2 页：每日时间表 B ==================== -->
+<div class="pb"></div>
+<h2>四、每日时间表 · 版本 B｜工作日（周一至周五）</h2>
+<p class="small">净学习约 6 小时，靠碎片时间补。核心块：数学专项、英语精读、逻辑/写作轮转。</p>
+<table class="sched">
+  <thead><tr><th>时间</th><th>内容</th><th>执行要点</th><th>优先级</th></tr></thead>
+  <tbody>
+    <tr><td>06:30–07:15</td><td>英语词汇 45min</td><td>新词 30 + 复习 80；有课日减量不减频</td><td>必修</td></tr>
+    <tr><td>07:15–07:50</td><td>早餐 + 通勤</td><td>耳机放六级听力，只求语感，不设任务量</td><td>碎片</td></tr>
+    <tr><td>07:50–12:00</td><td>课程</td><td>课间 5min × 4：翻词汇卡 / 做 1 道逻辑小题</td><td>碎片</td></tr>
+    <tr><td>12:00–13:00</td><td>午餐 + 午休 25min</td><td>必须小睡，下午效率靠它</td><td>必修</td></tr>
+    <tr class="prio-core"><td>13:00–14:00</td><td>数学专项 60min</td><td>只攻一个模块，宁可少而透，不查书</td><td>核心</td></tr>
+    <tr><td>14:00–18:00</td><td>课程</td><td>课间继续碎片：英语长难句 1 句</td><td>碎片</td></tr>
+    <tr><td>18:00–19:00</td><td>晚餐 + 放松</td><td>完全不学习，恢复精力</td><td>必修</td></tr>
+    <tr class="prio-core"><td>19:00–20:30</td><td>英语精读 + 听力 90min</td><td>阅读 1 篇精读 60min + 六级听力精听 30min</td><td>核心</td></tr>
+    <tr class="prio-core"><td>20:30–21:30</td><td>逻辑 / 写作轮转 60min</td><td>单日逻辑 · 双日写作（论效 / 论说交替）</td><td>核心</td></tr>
+    <tr><td>21:30–22:00</td><td>错题复盘 + 数据录入</td><td>当天错题当天录，别攒到周末</td><td>必修</td></tr>
+    <tr><td>22:00–22:30</td><td>词汇回滚</td><td>当天新词过一遍</td><td>必修</td></tr>
+    <tr><td>22:30–23:00</td><td>洗漱 · 熄灯</td><td>23:00 前必须睡，手机放远</td><td>铁律</td></tr>
+  </tbody>
+</table>
+
+<div class="box">
+  <b>有课日达标线（3 个核心块至少完成 2 个）：</b>
+  ① 数学专项 60min　② 英语精读 60min　③ 逻辑或写作 60min。
+  连续 2 天未达标 → 立刻下调任务量，而不是硬撑。
+</div>
+
+<h2>五、每日时间表 · 版本 A｜周六（全天型）</h2>
+<p class="small">净学习约 10.5 小时。周六是唯一的「整块攻坚日」，必须用来做数学 + 逻辑的深度专项。</p>
+<table class="sched">
+  <thead><tr><th>时间</th><th>内容</th><th>执行要点</th><th>优先级</th></tr></thead>
+  <tbody>
+    <tr><td>06:20–06:35</td><td>起床 · 洗漱</td><td>不碰手机，直接下床</td><td>必修</td></tr>
+    <tr><td>06:35–06:50</td><td>昨日错题卡速览</td><td>只看「避坑口诀」列，3 分钟一张卡</td><td>必修</td></tr>
+    <tr><td>06:50–07:35</td><td>英语词汇 45min</td><td>新词 50 + 复习 100</td><td>必修</td></tr>
+    <tr><td>07:35–08:05</td><td>早餐</td><td>可放六级听力泛听</td><td>必修</td></tr>
+    <tr><td>08:05–08:15</td><td>数学热身 10min</td><td>公式默写 + 速算 10 题</td><td>必修</td></tr>
+    <tr class="prio-core"><td>08:15–09:45</td><td>数学专项 90min</td><td>单周几何（圆弧/割补/截面）· 双周概率与排列组合</td><td>核心</td></tr>
+    <tr><td>09:45–10:00</td><td>休息 15min</td><td>起身活动，不看屏幕</td><td>必修</td></tr>
+    <tr class="prio-core"><td>10:00–11:30</td><td>逻辑专项 90min</td><td>形式逻辑 → 分析推理 → 论证逻辑 三日轮转</td><td>核心</td></tr>
+    <tr><td>11:30–11:45</td><td>上午复盘 15min</td><td>口述今天新学的两个解题入口</td><td>必修</td></tr>
+    <tr><td>11:45–12:40</td><td>午餐 + 散步</td><td>饭后走动 10 分钟</td><td>必修</td></tr>
+    <tr><td>12:40–13:20</td><td>午休 40min</td><td>定闹钟，绝不超时</td><td>必修</td></tr>
+    <tr class="prio-core"><td>13:30–15:10</td><td>英语二精读 100min</td><td>2 篇真题阅读：限时 → 对答案 → 逐句拆长难句</td><td>核心</td></tr>
+    <tr><td>15:10–15:25</td><td>休息 15min</td><td>远眺护眼</td><td>必修</td></tr>
+    <tr class="prio-core"><td>15:25–16:25</td><td>六级听力专项 60min</td><td>盲听 → 逐句复听 → 对原文标生词 → 跟读 3 遍</td><td>核心</td></tr>
+    <tr class="prio-core"><td>16:40–18:10</td><td>管综写作 90min</td><td>单周论证有效性分析（限时 30min 成文）· 双周论说文</td><td>核心</td></tr>
+    <tr><td>18:10–19:10</td><td>晚餐 + 完全放松</td><td>不学习</td><td>必修</td></tr>
+    <tr class="prio-core"><td>19:10–20:30</td><td>错题重做 80min</td><td>只看已标注错题，先独立推导再看答案</td><td>核心</td></tr>
+    <tr class="prio-core"><td>20:30–21:10</td><td>英语写作 / 翻译 40min</td><td>小作文背框架 · 大作文图表段</td><td>核心</td></tr>
+    <tr><td>21:10–21:45</td><td>当日复盘 + 录入</td><td>录错题与时长，写明日 3 个重点</td><td>必修</td></tr>
+    <tr><td>21:45–22:15</td><td>睡前词汇 / 泛听</td><td>当天新词回滚</td><td>必修</td></tr>
+    <tr><td>22:40</td><td>熄灯</td><td>保证 7.5 小时睡眠——睡眠是记忆固化环节</td><td>铁律</td></tr>
+  </tbody>
+</table>
+
+<!-- ==================== 第 3 页：周日 + 周节奏 ==================== -->
+<div class="pb"></div>
+<h2>六、每日时间表 · 版本 C｜周日（复盘与六级听力专项日）</h2>
+<p class="small">不排新内容，只做清零与检测。这是每周唯一允许「回头」的一天。</p>
+<table class="sched">
+  <thead><tr><th>时间</th><th>内容</th><th>执行要点</th><th>优先级</th></tr></thead>
+  <tbody>
+    <tr><td>07:00–07:45</td><td>英语词汇</td><td>本周生词本全量回滚</td><td>必修</td></tr>
+    <tr><td>07:45–08:30</td><td>早餐 + 到自习室</td><td>—</td><td>必修</td></tr>
+    <tr class="prio-core"><td>08:30–10:00</td><td>六级听力精听 90min</td><td>1 套真题：盲听 → 逐句复听 → 原文标生词 → 跟读 3 遍</td><td>核心</td></tr>
+    <tr><td>10:00–10:15</td><td>休息</td><td>—</td><td>必修</td></tr>
+    <tr class="prio-core"><td>10:15–11:45</td><td>数学错题重做清零 90min</td><td>本周错题横向重做，做对才准划掉</td><td>核心</td></tr>
+    <tr><td>11:45–13:30</td><td>午餐 + 午休</td><td>—</td><td>必修</td></tr>
+    <tr class="prio-core"><td>13:30–15:30</td><td>管综小模考 120min</td><td>数学 60min + 逻辑 60min，严格计时</td><td>核心</td></tr>
+    <tr><td>15:30–16:00</td><td>休息</td><td>—</td><td>必修</td></tr>
+    <tr class="prio-core"><td>16:00–17:30</td><td>模考精析 90min</td><td>错因归档 + 写「一题三改」</td><td>核心</td></tr>
+    <tr><td>17:30–18:30</td><td>晚餐 + 放松</td><td>—</td><td>必修</td></tr>
+    <tr class="prio-core"><td>18:30–20:00</td><td>英语二真题 90min</td><td>阅读 + 新题型，限时做，当周进度验收</td><td>核心</td></tr>
+    <tr class="prio-core"><td>20:00–21:00</td><td>写作输出 60min</td><td>论效 / 论说文交替，每周各 1 篇</td><td>核心</td></tr>
+    <tr><td>21:00–21:40</td><td>周复盘 + 下周计划</td><td>看薄弱模块，定下周 3 个攻坚点</td><td>必修</td></tr>
+    <tr><td>21:40–22:30</td><td>自由 / 休息</td><td>留一段完全放空的时间</td><td>必修</td></tr>
+  </tbody>
+</table>
+
+<h2>七、周节奏模板（每周照此循环）</h2>
+<table class="compact">
+  <thead>
+    <tr><th>星期</th><th>数学</th><th>逻辑</th><th>英语</th><th>写作</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>周一</td><td><b>限时模考 55min</b></td><td>分析推理专项</td><td>阅读精读 1 篇</td><td>—</td></tr>
+    <tr><td>周二</td><td>深度精析 + 一题三改</td><td>—</td><td>长难句拆解</td><td>—</td></tr>
+    <tr><td>周三</td><td><b>限时模考 55min</b></td><td>论证逻辑专项</td><td>阅读精读 1 篇</td><td>—</td></tr>
+    <tr><td>周四</td><td>深度精析 + 一题三改</td><td>—</td><td>翻译 / 新题型</td><td><b>论证有效性分析 1 篇</b></td></tr>
+    <tr><td>周五</td><td><b>限时模考 55min</b></td><td>形式逻辑 20 题速练</td><td>阅读精读 1 篇</td><td>—</td></tr>
+    <tr><td>周六</td><td>深度精析 + 一题三改</td><td>错题重做</td><td>英语二成套限时</td><td><b>论说文 1 篇</b></td></tr>
+    <tr><td>周日</td><td>错题重做清零</td><td>管综小模考 60min</td><td><b>六级听力精听 1.5h</b></td><td>周复盘 + 下周计划</td></tr>
+  </tbody>
+</table>
+
+<div class="box">
+  <b>数学「3 + 3 + 1」的落点：</b>
+  周一 / 周三 / 周五 = <b>3 套限时模考</b>　|　
+  周二 / 周四 / 周六 = <b>3 次深度精析</b>　|　
+  周日 = <b>1 次错题重做清零</b>。
+</div>
+
+<!-- ==================== 第 4 页：阶段 + 六级 + 里程碑 ==================== -->
+<div class="pb"></div>
+<h2>八、93 天三阶段路线图</h2>
+<table>
+  <thead>
+    <tr><th style="width:30mm">阶段</th><th style="width:26mm">时间</th><th>唯一目标</th><th>验收标准</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><b>一 · 强化扫盲</b></td><td>09-17 → 10-25<br><span class="small">39 天</span></td>
+      <td>把三个失分模块从「会错」练到「不会错」</td>
+      <td>数学几何 / 概率 / 条充 正确率 ≥ 80%；形式逻辑零失误；英语二 2010–2014 精读完成</td>
+    </tr>
+    <tr>
+      <td><b>二 · 真题实战</b></td><td>10-26 → 11-30<br><span class="small">36 天</span></td>
+      <td>按考场节奏成套输出，暴露真实水平</td>
+      <td>数学限时稳定 60+；逻辑 50+；管综全科连做 ≥ 4 次；英语二 2015–2021 成套完成</td>
+    </tr>
+    <tr>
+      <td><b>三 · 冲刺模考</b></td><td>12-01 → 12-19<br><span class="small">19 天</span></td>
+      <td>调生物钟 + 错题清零 + 手感保持</td>
+      <td>5 次全真同日模考；错题本待清零项 = 0</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>阶段一六周专项排期（09-17 → 10-25）</h3>
+<table class="compact">
+  <thead><tr><th style="width:34mm">周次</th><th>数学专项</th><th>必须写下来的东西</th></tr></thead>
+  <tbody>
+    <tr><td>W1（09-17–09-20）</td><td>几何：圆弧与多边形（母题：圆弧过中心）</td><td>把「交点 → 区域」的画图步骤固定成动作</td></tr>
+    <tr><td>W2（09-21–09-27）</td><td>几何：正六边形阴影、割补、整体减空白</td><td>每道题的二维截面图（不许只在脑子里想）</td></tr>
+    <tr><td>W3（09-28–10-04）</td><td>几何：球内接正方体、大圆截面、圆内接三角形</td><td>公式的现场推导路径，而不是背结论</td></tr>
+    <tr><td>W4（10-05–10-11）</td><td>数据分析：集合容斥、分组均分与非均分</td><td>「均分要除以 A(k,k)」的判断条件</td></tr>
+    <tr><td>W5（10-12–10-18）</td><td>数据分析：动态路径计数、概率不等式</td><td>少步数一律先画树状图，再谈公式</td></tr>
+    <tr><td>W6（10-19–10-25）</td><td>条件充分性判断：特值法找反例、C 选项判定</td><td>严禁带条件(1)的结论去推(2)</td></tr>
+  </tbody>
+</table>
+
+<h2>九、六级专项方案（308 → 425）</h2>
+
+<h3>分数构成与目标拆解</h3>
+<table class="compact">
+  <thead><tr><th>板块</th><th class="c">满分</th><th class="c">需拿到</th><th>怎么练</th></tr></thead>
+  <tbody>
+    <tr><td>听力</td><td class="c">248.5</td><td class="c">≈150（60%）</td><td class="hi">只能单独练，每周 3 次 × 40 分钟精听</td></tr>
+    <tr><td>阅读</td><td class="c">248.5</td><td class="c">≈165（66%）</td><td>英语二真题精读带动</td></tr>
+    <tr><td>写作 + 翻译</td><td class="c">213</td><td class="c">≈110（52%）</td><td>英语二模板共用，考前各加背 3 篇</td></tr>
+    <tr><td><b>合计</b></td><td class="c"><b>710</b></td><td class="c hi"><b>425</b></td><td>过线即可，不追高分</td></tr>
+  </tbody>
+</table>
+
+<div class="warn">
+  <b>根因判断：308 分大概率卡在词汇量（估计 3000 上下，六级需 5500+）。</b>
+  词汇是所有板块的天花板——听不出、读不快、写不出，都是它。
+  因此<b>词汇是每天的第一优先级</b>，任何一天可以砍掉其他任务，但不能砍词汇。
+</div>
+
+<h3>六级时间分配（与考研共用时段，不额外占用上午）</h3>
+<table class="compact">
+  <thead><tr><th>阶段</th><th>听力</th><th>词汇</th><th>备注</th></tr></thead>
+  <tbody>
+    <tr><td>09-17 → 10-25</td><td>每周 3 次 × 40min</td><td>每天 45min</td><td>先补基础：短对话 + 长对话精听</td></tr>
+    <tr><td>10-26 → 11-30</td><td>每周 3 次 × 40min + 周日 90min</td><td>每天 40min</td><td>听力加入讲座篇章，真题刷 5 套</td></tr>
+    <tr><td>12-01 → 12-12</td><td>每天 40min</td><td>每天 30min</td><td class="hi">下午归六级，上午永远归考研</td></tr>
+    <tr><td>12-12 15:00–17:25</td><td colspan="2" class="c">六级笔试</td><td>当天上午正常做考研内容</td></tr>
+    <tr><td>12-13 → 12-18</td><td colspan="2" class="c">完全停止六级，只谈考研</td><td class="hi">5 次全真模考，按考场生物钟</td></tr>
+  </tbody>
+</table>
+
+<div class="pb"></div>
+<h2>十、择校分档与保底方案</h2>
+<p class="small">
+  前提：考研报名只能填「一个招生单位的一个专业」，报名后不可更改 —— 所以「保底」是
+  <b>10 月报名前的分数档决策</b>，不是多填几个志愿。
+</p>
+
+<h3>四个必须先搞清的机制</h3>
+<table class="compact">
+  <thead><tr><th style="width:32mm">机制</th><th>含义与影响</th></tr></thead>
+  <tbody>
+    <tr><td><b>1. 没有平行志愿</b></td><td>只能填<b>一个招生单位的一个专业</b>。保底 = 用模考分数档决定填哪一所，报名后无法更改。</td></tr>
+    <tr><td><b>2. 基本没有调剂</b></td><td>全日制会计 / 审计专硕一志愿常年爆满，极少接收调剂。<b>不能指望「先冲、不行再调剂」。</b></td></tr>
+    <tr><td><b>3. 复试线 ≠ 录取线</b></td><td>双非院校线可能贴国家线 194，但实际拟录取最低分常高 <b>20–40 分</b>。要查「拟录取名单」的最低分与中位数，不是「复试线」。</td></tr>
+    <tr><td><b>4. 审计是系统性红利</b></td><td>同一张卷子，<b>审计 MAud 的线比会计 MPAcc 低 5–15 分</b>。改报审计 = 白送 5–15 分，初试内容一个字不改。</td></tr>
+  </tbody>
+</table>
+
+<h3>审计红利（同一张卷子，两条线）</h3>
+<table class="compact">
+  <thead><tr><th>院校 / 年份</th><th class="c">会计 MPAcc</th><th class="c">审计 MAud</th><th class="c">差值</th></tr></thead>
+  <tbody>
+    <tr><td>中国财政科学研究院 2024</td><td class="c">242</td><td class="c">231</td><td class="c hi">11 分</td></tr>
+    <tr><td>中国财政科学研究院 2025</td><td class="c">225</td><td class="c">221</td><td class="c">4 分</td></tr>
+    <tr><td>山西财经大学 2025</td><td class="c">210</td><td class="c">205</td><td class="c">5 分</td></tr>
+  </tbody>
+</table>
+
+<h3>保底分档表</h3>
+<table class="compact">
+  <thead>
+    <tr>
+      <th class="c" style="width:12mm">档位</th><th class="c" style="width:19mm">模考总分</th>
+      <th>院校</th><th>专业</th><th class="c">近年复试线</th><th>备注</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td class="c">冲</td><td class="c">≥ 245</td><td>中国财政科学研究院</td><td>会计 MPAcc</td><td class="c">218/228/230/<b>242</b>/225</td><td>学费仅 3.6 万 / 2 年</td></tr>
+    <tr><td class="c">稳</td><td class="c">230–245</td><td>中国财政科学研究院</td><td>审计 MAud</td><td class="c">230 / 231 / 221</td><td>同校同卷，低 5–15 分</td></tr>
+    <tr><td class="c">稳</td><td class="c">230–245</td><td>厦门国家会计学院</td><td>会计 MPAcc</td><td class="c">线 194，实录 <b>220+</b></td><td>财政部直属；2026 全日制 45 人</td></tr>
+    <tr><td class="c">稳</td><td class="c">225–240</td><td>北京工商大学</td><td>会计 MPAcc</td><td class="c">219/193/212/224/194/231</td><td class="hi">波动极大；学费 10.8 万 / 2 年</td></tr>
+    <tr><td class="c">保</td><td class="c">210–230</td><td>山西财经大学</td><td>会计 MPAcc</td><td class="c"><b>210</b>（2025）</td><td>招生量大，中部性价比高</td></tr>
+    <tr><td class="c">保</td><td class="c">205–225</td><td>山西财经大学</td><td>审计 MAud</td><td class="c"><b>205</b>（2025）</td><td>同上，再低 5 分</td></tr>
+    <tr><td class="c">兜</td><td class="c">195–215</td><td>山东工商学院</td><td>会计 MPAcc</td><td class="c"><b>196</b>（录取 68 人）</td><td>招生量大，线贴国家线</td></tr>
+    <tr><td class="c">兜</td><td class="c">190–210</td><td>山东工商学院</td><td>审计 MAud</td><td class="c"><b>194</b>（录取 27 人）</td><td>目前最稳的一档</td></tr>
+    <tr><td class="c">底</td><td class="c">184–194</td><td>B 区院校（内蒙 / 广西 / 贵州 / 云南 / 甘肃 / 新疆）</td><td>会计 / 审计</td><td class="c">国家线 <b>184</b></td><td>最后兜底</td></tr>
+  </tbody>
+</table>
+
+<div class="box">
+  <b>2025 年管理类专硕国家线（所有学校的绝对下限）</b><br>
+  会计 MPAcc：A 区 <b>194</b> / 48 / 96　|　B 区 <b>184</b> / 43 / 86<br>
+  审计 MAud：A 区 <b>194</b> / 48 / 96　|　B 区 <b>184</b> / 43 / 86
+</div>
+
+<h3>10 月报名决策规则（照此执行，不靠感觉）</h3>
+<p class="small">9/17–10/15 每周做 1 次「管综 + 英二」全科限时模考，取 4 次的 <b>中位数</b>（不是最高分、不是平均分）。</p>
+<table class="compact">
+  <thead><tr><th class="c" style="width:34mm">模考中位数</th><th>报名选择</th></tr></thead>
+  <tbody>
+    <tr><td class="c">≥ 245</td><td>中国财政科学研究院 · 会计 MPAcc</td></tr>
+    <tr><td class="c">230 – 245</td><td>中国财政科学研究院 · 审计 MAud　或　厦门国家会计学院</td></tr>
+    <tr><td class="c">210 – 230</td><td>山西财经大学 · 会计</td></tr>
+    <tr><td class="c">205 – 225</td><td>山西财经大学 · 审计</td></tr>
+    <tr><td class="c">195 – 215</td><td>山东工商学院 · 会计</td></tr>
+    <tr><td class="c">190 – 210</td><td>山东工商学院 · 审计</td></tr>
+    <tr><td class="c">&lt; 190</td><td>B 区院校　或　非全日制</td></tr>
+  </tbody>
+</table>
+
+<div class="warn">
+  <b>报名前必须自己核验的三件事</b>（上表是历史数据，不保证 2027 年）：<br>
+  ① 目标院校 <b>「拟录取名单」的最低分 / 中位数</b> —— 不是复试线；<br>
+  ② <b>招生人数</b> —— 招生 &lt; 20 人的专业年际波动剧烈（北京工商 194→231 就是例子）；<br>
+  ③ <b>学费与学制</b> —— 北京工商 10.8 万 / 2 年 vs 财科院 3.6 万 / 2 年，差 3 倍。<br>
+  核验渠道：研招网「硕士专业目录」+ 各校研究生院官网「复试录取」栏目。培训机构汇总页只能用于初筛。
+</div>
+
+<h2>十一、里程碑检查点</h2>
+<table class="compact">
+  <thead><tr><th style="width:18mm">检查日</th><th>验收标准</th><th>不达标怎么办</th></tr></thead>
+  <tbody>
+    <tr><td>10-04</td><td>几何模块专项正确率 ≥ 80%</td><td>砍掉解析几何，只保住平面几何 + 基础立体几何的基础分</td></tr>
+    <tr><td>10-25</td><td>数学真题限时首次达到 58+</td><td>阶段二延长 1 周，阶段三模考次数由 5 次减为 3 次</td></tr>
+    <tr><td>11-08</td><td>逻辑真题稳定 48+</td><td>回炉形式逻辑与论证逻辑，分析推理只练高频题型</td></tr>
+    <tr><td>11-22</td><td>管综连做总分 ≥ 145</td><td>放弃难题，全力保基础题命中率；写作改为每两天 1 篇</td></tr>
+    <tr><td>11-30</td><td>英语二成套 ≥ 73</td><td>冲刺期每天固定 1 篇阅读保持手感 + 作文模板强化</td></tr>
+    <tr><td>12-12</td><td>六级考完</td><td>无论感觉如何，当天起只谈考研</td></tr>
+    <tr><td>12-18</td><td>错题本待清零项 = 0</td><td>只挑错 2 次以上的题重做，其余放弃</td></tr>
+  </tbody>
+</table>
+
+<!-- ==================== 第 5 页：铁律 + 打卡表 ==================== -->
+<div class="pb"></div>
+<h2>十二、执行铁律（贴在桌前）</h2>
+<table>
+  <tbody>
+    <tr><td style="width:9mm" class="c"><b>1</b></td><td><b>核心块 ≥ 2 个才算达标日</b>（工作日）/ <b>≥ 4 个</b>（周六）。核心块：数学专项、逻辑专项、英语精读、写作输出。</td></tr>
+    <tr><td class="c"><b>2</b></td><td><b>连续 2 天未达标 → 立刻下调任务量</b>，不要硬撑到崩盘。可持续 &gt; 强度。</td></tr>
+    <tr><td class="c"><b>3</b></td><td><b>每晚 21:30 固定录入错题与时长。</b>不录入 = 没发生。攒到周末补录，信息失真 70%。</td></tr>
+    <tr><td class="c"><b>4</b></td><td><b>周日不排新内容</b>，只做错题清零 + 六级听力精听 + 管综小模考 + 周复盘。</td></tr>
+    <tr><td class="c"><b>5</b></td><td><b>50 秒舍弃原则</b>：考场上一题思考 50 秒仍无清晰思路，立即标记跳过，基础分优先。</td></tr>
+    <tr><td class="c"><b>6</b></td><td><b>写作每周必须成文 2 篇</b>。它不依赖天赋，只依赖输出次数，是唯一「不学也能提分、但最容易被放弃」的模块。</td></tr>
+    <tr><td class="c"><b>7</b></td><td><b>错题必写「避坑口诀」</b>——一句可复用的动作指令。写「下次注意」等于没写。</td></tr>
+    <tr><td class="c"><b>8</b></td><td><b>22:40 / 23:00 熄灯为铁律。</b>睡眠是记忆固化环节，不是可压缩项。</td></tr>
+    <tr><td class="c"><b>9</b></td><td><b>12 月上半月：上午永远归考研，下午才归六级。</b>六级只要过线，考研要 246。</td></tr>
+  </tbody>
+</table>
+
+<h2>十三、本周打卡表（可复印）</h2>
+<p class="small">日期范围：______ 月 ______ 日 ～ ______ 月 ______ 日　　本周三个攻坚点：_______________________________________</p>
+<table class="check compact">
+  <thead>
+    <tr>
+      <th>任务</th>
+      <th class="c">周一</th><th class="c">周二</th><th class="c">周三</th><th class="c">周四</th>
+      <th class="c">周五</th><th class="c">周六</th><th class="c">周日</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>英语词汇 45min</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+    <tr><td>数学专项 / 模考</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+    <tr><td>逻辑专项</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+    <tr><td>英语精读 / 真题</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+    <tr><td>写作成文</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+    <tr><td>六级听力 40min</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+    <tr><td>错题录入</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+    <tr><td>23:00 前熄灯</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+  </tbody>
+</table>
+
+<h3>本周数据记录</h3>
+<table class="compact">
+  <thead><tr><th>项目</th><th class="c">目标</th><th class="c">实际</th><th>差距与原因</th></tr></thead>
+  <tbody>
+    <tr><td>数学限时得分</td><td class="c">≥ 58</td><td class="blank"></td><td class="blank"></td></tr>
+    <tr><td>数学错题数</td><td class="c">≤ 5</td><td class="blank"></td><td class="blank"></td></tr>
+    <tr><td>逻辑限时得分</td><td class="c">≥ 48</td><td class="blank"></td><td class="blank"></td></tr>
+    <tr><td>英语二阅读正确率</td><td class="c">≥ 70%</td><td class="blank"></td><td class="blank"></td></tr>
+    <tr><td>写作成文篇数</td><td class="c">2</td><td class="blank"></td><td class="blank"></td></tr>
+    <tr><td>净学习时长</td><td class="c">42 h</td><td class="blank"></td><td class="blank"></td></tr>
+  </tbody>
+</table>
+
+<h3>下周调整（周日晚填写）</h3>
+<div class="write" style="margin:6px 0 14px"></div>
+<div class="write" style="margin:6px 0 22px"></div>
+
+<div class="box nb" style="margin-top:14px">
+  <b>数据记录工具</b>（在电脑上执行，自动生成仪表盘）：<br>
+  <span class="small">
+  <code>cd D:\dpsk\考研备考</code><br>
+  <code>python tools\tracker.py add-mistake</code>　录入错题（自动排入艾宾浩斯 1/2/4/7/15/30 天复习）<br>
+  <code>python tools\tracker.py add-session</code>　录入学习时长<br>
+  <code>python tools\tracker.py review</code>　　　查看今日到期复习的错题<br>
+  <code>python tools\tracker.py report</code>　　　查看周报表　|　<code>python tools\tracker.py excel</code>　生成 Excel 仪表盘
+  </span>
+</div>
+
+<p class="small" style="text-align:center;margin-top:18px;color:#888">
+  2027 考研作战计划 · 打印版　|　制表 2026-09-17　|　初试 2026-12-19
+</p>
+
+</div>
+</body>
+</html>

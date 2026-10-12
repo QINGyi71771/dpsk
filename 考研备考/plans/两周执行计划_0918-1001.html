@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>两周执行计划 09/18 – 10/01（打印版）</title>
+<style>
+  @page { size: A4 portrait; margin: 12mm 11mm 13mm 11mm; }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body {
+    font-family: "Microsoft YaHei", "微软雅黑", "PingFang SC", sans-serif;
+    font-size: 9.5pt; line-height: 1.5; color: #1a1a1a; margin: 0;
+  }
+  .sheet { max-width: 188mm; margin: 0 auto; }
+  .screen-only {
+    background: #fff8e1; border: 1px solid #d9a404; border-left: 4px solid #d9a404;
+    padding: 7px 11px; margin: 0 0 12px; font-size: 8.5pt; color: #7a5200;
+  }
+  @media print { .screen-only { display: none !important; } }
+
+  h1 { font-size: 17pt; color: #1F4E79; margin: 0 0 2px; letter-spacing: .5px; }
+  .subtitle { font-size: 9pt; color: #666; margin: 0 0 9px; }
+  h2 {
+    font-size: 12pt; color: #1F4E79; margin: 14px 0 6px;
+    padding: 3px 0 3px 8px; border-left: 4px solid #1F4E79;
+    background: #f2f6fb; font-weight: 700;
+  }
+  .rule { height: 2px; background: #1F4E79; margin: 5px 0 12px; }
+
+  table { width: 100%; border-collapse: collapse; margin: 5px 0 9px; }
+  th { background: #1F4E79; color: #fff; font-weight: 600; padding: 3.5px 6px;
+       text-align: left; font-size: 8.5pt; border: 1px solid #1F4E79; }
+  td { padding: 3px 6px; border: 1px solid #b8cfe6; font-size: 8.5pt; vertical-align: top; }
+  tbody tr:nth-child(even) td { background: #f5f9fd; }
+  .c { text-align: center; }
+  .hi { color: #b00020; font-weight: 700; }
+  .ok { color: #1F6B3B; font-weight: 700; }
+
+  .box { border: 1px solid #9DC3E6; background: #f7fbfe; padding: 6px 10px; margin: 6px 0; }
+  .warn { border: 1px solid #d9a404; border-left: 4px solid #d9a404; background: #fffdf5;
+          padding: 6px 10px; margin: 6px 0; }
+  .warn b { color: #9C6500; }
+
+  /* 单日卡片 */
+  .day { border: 1px solid #b8cfe6; border-left: 4px solid #1F4E79;
+         padding: 5px 9px 6px; margin: 0 0 6px; break-inside: avoid; page-break-inside: avoid; }
+  .day.rest { border-left-color: #b00020; }
+  .dayhead { font-weight: 700; color: #1F4E79; font-size: 10pt; margin-bottom: 2px; }
+  .dayhead .wk { color: #888; font-weight: 400; font-size: 8.5pt; margin-left: 4px; }
+  .dayhead .ver { float: right; font-weight: 400; font-size: 8pt; color: #666; }
+  .day ul { margin: 2px 0 2px; padding-left: 15px; }
+  .day li { margin: 1px 0; }
+  .day .tag { display: inline-block; min-width: 62px; font-weight: 600; color: #1F4E79; }
+  .day .tag.k { color: #b00020; }
+  .deliver { font-size: 8pt; color: #777; margin-top: 2px; border-top: 1px dotted #ccd; padding-top: 2px; }
+
+  .check td { height: 6.6mm; }
+  .check td:first-child { width: 44mm; font-weight: 600; }
+  .blank { background: #fff !important; }
+  .pb { break-before: page; page-break-before: always; }
+  .small { font-size: 8pt; color: #666; }
+  .two-col { display: table; width: 100%; table-layout: fixed; border-spacing: 7px 0; }
+  .two-col > div { display: table-cell; vertical-align: top; }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+<div class="screen-only">
+  <b>打印说明</b>：Ctrl + P → A4 → 勾选「背景图形」→ 打印。已同时生成 PDF（<code>两周执行计划_0918-1001.pdf</code>）。
+</div>
+
+<h1>两周执行计划　09/18 – 10/01</h1>
+<p class="subtitle">
+  共 14 天　|　主线：摸底收尾 → 几何专项①（圆弧与多边形）→ 几何专项②（三角形）+ 形式逻辑三步走<br>
+  版本约定：周一至周五 = <b>B 有课型</b>　·　周六 = <b>A 全天型</b>　·　周日 = <b>C 复盘型</b>（详见解锁表见总计划第四~六节）
+</p>
+<div class="rule"></div>
+
+<h2>零、每天都做（不写进逐日表，但一天都不能断）</h2>
+<table>
+  <thead><tr><th style="width:26mm">时段</th><th style="width:52mm">动作</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td>06:30–07:15</td><td><b>英语词汇 45min</b></td><td>六级核心词优先，新词 30 + 复习 80。<b>这是六级 308 → 425 的第一杠杆，任何一天可以砍别的，不能砍它。</b></td></tr>
+    <tr><td>21:30–22:00</td><td><b>错题录入 + 当日复盘</b></td><td>当天错题当天录，写「避坑口诀」。攒到周末补录失真 70%。</td></tr>
+    <tr><td>22:00–22:30</td><td>词汇回滚</td><td>当天新词过一遍再睡（睡眠固化）。</td></tr>
+    <tr><td>23:00</td><td><b>熄灯</b></td><td>铁律，不谈判。</td></tr>
+  </tbody>
+</table>
+
+<h2>一、两周后的验收标准（做不到就说明计划要下调，不是你不努力）</h2>
+<table>
+  <thead><tr><th style="width:52mm">项目</th><th class="c" style="width:24mm">目标</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td>错题录入（带避坑口诀）</td><td class="c">≥ 40 条</td><td>只算写了「考点 + 根本原因 + 口诀」三项的</td></tr>
+    <tr><td>数学 · 几何专项正确率</td><td class="c">≥ 70%</td><td>阶段一的终点是 80%，两周先到 70%</td></tr>
+    <tr><td>逻辑 · 形式逻辑 20 题限时</td><td class="c">错 ≤ 2</td><td>形式逻辑是唯一能练到接近满分的模块</td></tr>
+    <tr><td>英语二精读</td><td class="c">2019 全套 + 2020 Text 1–2</td><td>每篇必须做「干扰项归类」</td></tr>
+    <tr><td>论证有效性分析成文</td><td class="c">4 篇</td><td>限时 30 分钟成文，不是找漏洞练习</td></tr>
+    <tr><td>论说文成文</td><td class="c">2 篇</td><td>5 分钟审题立意 + 引-议-联-结</td></tr>
+    <tr><td>六级听力精听</td><td class="c">≥ 8 次</td><td>含 2 次 90 分钟长段</td></tr>
+    <tr><td>摸底基线表</td><td class="c">填完</td><td>9/20 前完成，否则后面所有目标都是猜的</td></tr>
+  </tbody>
+</table>
+
+<!-- ============ 第一段：摸底收尾 ============ -->
+<h2>二、第一段｜摸底收尾（09/18 – 09/20，3 天）</h2>
+
+<div class="day">
+  <div class="dayhead">09/18 <span class="wk">周五</span><span class="ver">版本 B</span></div>
+  <ul>
+    <li><span class="tag k">数学 60min</span>摸底收尾②：<b>条件充分性判断 + 代数</b> 15 题，限时 35min，对答案后逐题归因</li>
+    <li><span class="tag k">逻辑 60min</span>摸底③：<b>形式逻辑</b> 20 题，限时 30min，只统计「逆否等价」和「充分必要转换」两类错了几道</li>
+    <li><span class="tag">英语 60min</span>英语二 2019 Text 1：限时 20min 做题 → 精读 40min</li>
+    <li><span class="tag">六级 40min</span><b>听力定位测试</b>：完整做 1 套六级听力真题，先测出真实水平再谈怎么练</li>
+  </ul>
+  <div class="deliver">当日交付：摸底错题全部录入 + 六级听力原始得分</div>
+</div>
+
+<div class="day">
+  <div class="dayhead">09/19 <span class="wk">周六</span><span class="ver">版本 A · 全天型</span></div>
+  <ul>
+    <li><span class="tag k">08:15–09:45</span>逻辑 · <b>分析推理</b> 15 题，限时 45min</li>
+    <li><span class="tag">09:00–09:45</span>归因：重点看「有没有画表」「切入点是怎么选的」</li>
+    <li><span class="tag k">10:00–10:40</span>逻辑 · <b>论证逻辑</b> 15 题，限时 40min</li>
+    <li><span class="tag">10:40–11:30</span>归因：重点看「有没有掉进比例/数量陷阱、因果倒置」</li>
+    <li><span class="tag k">13:30–14:10</span>英语二 <b>阅读 2 篇</b>，限时 40min</li>
+    <li><span class="tag">14:10–15:10</span>精读 + <b>干扰项归类</b>（偷换概念/范围扩大/无中生有/因果倒置/张冠李戴）</li>
+    <li><span class="tag">15:25–16:00</span>英语二 <b>完形 + 新题型</b>，限时 35min</li>
+    <li><span class="tag k">16:40–17:10</span><b>论证有效性分析</b> 1 篇，限时 30min 成文</li>
+  </ul>
+  <div class="deliver">当日交付：摸底数据全部录入 + 论效 1 篇存档</div>
+</div>
+
+<div class="day rest">
+  <div class="dayhead">09/20 <span class="wk">周日</span><span class="ver">版本 C · 复盘型</span></div>
+  <ul>
+    <li><span class="tag k">08:30–10:00</span><b>六级听力精听 90min</b>：1 套真题，盲听 → 逐句复听 → 对原文标生词 → 跟读 3 遍</li>
+    <li><span class="tag">10:15–11:45</span>数学错题重做（把 9/17–9/19 的错题横向重做一遍）</li>
+    <li><span class="tag">13:30–14:30</span>英语二 <b>大作文</b> 1 篇（图表），限时 60min</li>
+    <li><span class="tag">14:30–15:10</span>英语二 <b>翻译</b> 1 篇，逐句对照</li>
+    <li><span class="tag k">15:40–17:00</span><b>汇总</b>：填《摸底测方案》第四节的基线记录表，跑 <code>tracker.py report</code>，定下两周攻坚点</li>
+  </ul>
+  <div class="deliver">当日交付：<b>基线记录表（这是后面所有目标的锚点）</b></div>
+</div>
+
+<!-- ============ 第二段：第 1 完整周 ============ -->
+<div class="pb"></div>
+<h2>三、第二段｜第 1 完整周（09/21 – 09/27）</h2>
+<p class="small">本周主线：数学<b>几何专项① 圆弧与多边形</b>　·　逻辑<b>形式逻辑① 假言逆否等价</b></p>
+
+<div class="day">
+  <div class="dayhead">09/21 <span class="wk">周一</span><span class="ver">版本 B</span></div>
+  <ul>
+    <li><span class="tag k">数学 60min</span>几何① <b>圆弧与多边形</b>｜限时专项 10 题 / 35min。母题：<b>以顶点为圆心、以边长作圆，必过正六边形中心</b>。做完必须画出中心和所有交点</li>
+    <li><span class="tag k">逻辑 60min</span>形式逻辑① <b>假言逆否等价 A→B ≡ ¬B→¬A</b>｜20 题速练，只求速度和零错</li>
+    <li><span class="tag">英语 60min</span>英语二 2019 Text 2 精读</li>
+    <li><span class="tag">六级 40min</span>听力精听（短对话）</li>
+  </ul>
+  <div class="deliver">当日交付：几何 10 题正确率 + 形式逻辑错题数</div>
+</div>
+
+<div class="day">
+  <div class="dayhead">09/22 <span class="wk">周二</span><span class="ver">版本 B</span></div>
+  <ul>
+    <li><span class="tag k">数学 60min</span>几何① <b>深度精析</b>｜昨日错题逐题写「一题三改」：改思路 / 改步骤 / 改陷阱，每道题画二维图</li>
+    <li><span class="tag">逻辑 60min</span>形式逻辑错题重做（不看答案先独立推）</li>
+    <li><span class="tag">英语 60min</span><b>长难句 3 句</b>拆解：主干骨架 + 修饰成分归属</li>
+    <li><span class="tag">六级 40min</span>听力精听</li>
+  </ul>
+  <div class="deliver">当日交付：≥ 3 条可复用的避坑口诀</div>
+</div>
+
+<div class="day">
+  <div class="dayhead">09/23 <span class="wk">周三</span><span class="ver">版本 B</span></div>
+  <ul>
+    <li><span class="tag k">数学 60min</span>几何① <b>限时专项</b> 10 题 / 35min（换题源，同一方法）</li>
+    <li><span class="tag k">逻辑 60min</span>论证逻辑① <b>画「论据 → 论点」链条</b>｜重点识别比例/数量陷阱（绝对量 vs 相对量），15 题</li>
+    <li><span class="tag">英语 60min</span>英语二 2019 Text 3 精读</li>
+    <li><span class="tag">六级 40min</span>听力精听</li>
+  </ul>
+  <div class="deliver">当日交付：几何两轮正确率对比（看方法有没有成型）</div>
+</div>
+
+<div class="day">
+  <div class="dayhead">09/24 <span class="wk">周四</span><span class="ver">版本 B</span></div>
+  <ul>
+    <li><span class="tag k">数学 60min</span>几何① <b>精析 + 错题重做</b></li>
+    <li><span class="tag">英语 60min</span>英语二 <b>翻译 1 篇</b>，逐句对照答案</li>
+    <li><span class="tag k">写作 60min</span><b>论证有效性分析</b>：限时 30min 成文 1 篇（标题 + 开头 + 4 段正文 + 结尾）</li>
+    <li><span class="tag">六级 40min</span>听力精听</li>
+  </ul>
+  <div class="deliver">当日交付：论效 1 篇存档到 <code>作文/</code></div>
+</div>
+
+<div class="day">
+  <div class="dayhead">09/25 <span class="wk">周五</span><span class="ver">版本 B</span></div>
+  <ul>
+    <li><span class="tag k">数学 60min</span>几何① <b>限时专项</b> 10 题 / 35min（第三轮）</li>
+    <li><span class="tag k">逻辑 60min</span>形式逻辑② <b>充分 / 必要条件转换</b>｜20 题速练</li>
+    <li><span class="tag">英语 60min</span>英语二 2019 Text 4 精读</li>
+    <li><span class="tag">六级 40min</span>听力精听</li>
+  </ul>
+  <div class="deliver">当日交付：几何三轮正确率趋势（应逐轮上升）</div>
+</div>
+
+<div class="day rest">
+  <div class="dayhead">09/26 <span class="wk">周六</span><span class="ver">版本 A · 全天型</span></div>
+  <ul>
+    <li><span class="tag k">08:15–09:45</span>数学 <b>几何①周测</b>：25 题 / 60min（圆弧、多边形阴影、割补、整体减空白）</li>
+    <li><span class="tag k">10:00–11:30</span>逻辑 <b>形式逻辑周测</b>：30 题 / 45min + 逐题归因</li>
+    <li><span class="tag k">13:30–15:10</span>英语二 <b>2019 成套限时</b>（阅读 + 新题型）</li>
+    <li><span class="tag">15:25–16:25</span>六级听力精听 60min</li>
+    <li><span class="tag k">16:40–18:10</span><b>论说文 1 篇</b>：5min 审题立意 → 引-议-联-结 四段</li>
+    <li><span class="tag k">19:10–20:30</span>本周错题重做</li>
+  </ul>
+  <div class="deliver">当日交付：几何周测正确率、形式逻辑错误数、论说文 1 篇</div>
+</div>
+
+<div class="day rest">
+  <div class="dayhead">09/27 <span class="wk">周日</span><span class="ver">版本 C · 复盘型</span></div>
+  <ul>
+    <li><span class="tag k">08:30–10:00</span>六级听力精听 90min</li>
+    <li><span class="tag k">10:15–11:45</span>数学错题重做清零（做对才准划掉）</li>
+    <li><span class="tag k">13:30–15:30</span><b>管综小模考</b>：数学 60min + 逻辑 60min，严格计时</li>
+    <li><span class="tag">16:00–17:30</span>模考精析 + 错因归档</li>
+    <li><span class="tag">18:30–20:00</span>英语二 2020 阅读 2 篇限时</li>
+    <li><span class="tag">20:00–21:00</span>论证有效性分析 1 篇</li>
+    <li><span class="tag k">21:00–21:40</span><b>周复盘</b>：跑 <code>tracker.py report</code>，与 9/20 基线对比，定下周 3 个攻坚点</li>
+  </ul>
+  <div class="deliver">当日交付：<b>第 1 周对比报告（基线 vs 现状）</b></div>
+</div>
+
+<!-- ============ 第三段 ============ -->
+<div class="pb"></div>
+<h2>四、第三段｜09/28 – 10/01（4 天）</h2>
+<p class="small">主线切换：数学 <b>几何专项② 三角形</b>　·　逻辑 <b>形式逻辑③ 假言选言转换</b> + 分析推理入门</p>
+
+<div class="day">
+  <div class="dayhead">09/28 <span class="wk">周一</span><span class="ver">版本 B</span></div>
+  <ul>
+    <li><span class="tag k">数学 60min</span>几何② <b>三角形</b>｜中线长公式、圆内接三角形、外接圆半径，限时专项 10 题</li>
+    <li><span class="tag k">逻辑 60min</span>形式逻辑③ <b>假言选言转换 A→B ≡ ¬A∨B</b>｜20 题速练</li>
+    <li><span class="tag">英语 60min</span>英语二 2020 Text 1 精读</li>
+    <li><span class="tag">六级 40min</span>听力精听（开始加长对话）</li>
+  </ul>
+  <div class="deliver">当日交付：错题录入 + 明日的 3 个重点</div>
+</div>
+
+<div class="day">
+  <div class="dayhead">09/29 <span class="wk">周二</span><span class="ver">版本 B</span></div>
+  <ul>
+    <li><span class="tag k">数学 60min</span>几何② <b>深度精析 + 错题重做</b></li>
+    <li><span class="tag">逻辑 60min</span>形式逻辑错题重做（三个公式混合验算）</li>
+    <li><span class="tag">英语 60min</span>长难句 3 句拆解</li>
+    <li><span class="tag">六级 40min</span>听力精听</li>
+  </ul>
+  <div class="deliver">当日交付：形式逻辑三公式的「条件反射速度」自测</div>
+</div>
+
+<div class="day">
+  <div class="dayhead">09/30 <span class="wk">周三</span><span class="ver">版本 B</span></div>
+  <ul>
+    <li><span class="tag k">数学 60min</span>几何② <b>限时专项</b> 10 题 / 35min</li>
+    <li><span class="tag k">逻辑 60min</span>分析推理① <b>规范列表法</b>｜15 题，<b>必须先把条件全部转写成表格，再找最大频次项 / 确定性信息切入</b></li>
+    <li><span class="tag">英语 60min</span>英语二 2020 Text 2 精读</li>
+    <li><span class="tag">六级 40min</span>听力精听</li>
+  </ul>
+  <div class="deliver">当日交付：分析推理 15 题的用时（画表会变慢，正常）</div>
+</div>
+
+<div class="day">
+  <div class="dayhead">10/01 <span class="wk">周四</span><span class="ver">版本 B</span></div>
+  <ul>
+    <li><span class="tag k">数学 60min</span>几何② <b>精析</b>（本专项收尾）</li>
+    <li><span class="tag">英语 60min</span><b>小作文</b>：书信框架背诵 + 默写 1 篇</li>
+    <li><span class="tag k">写作 60min</span><b>论证有效性分析</b>：限时 30min 成文 1 篇</li>
+    <li><span class="tag">六级 40min</span>听力精听</li>
+    <li><span class="tag k">收尾 30min</span><b>两周总结</b>：跑 <code>tracker.py report</code> + <code>excel</code>，对比 9/20 基线，写 10 月攻坚点</li>
+  </ul>
+  <div class="deliver">当日交付：<b>两周总结 + 10 月攻坚点（3 条）</b></div>
+</div>
+
+<div class="warn">
+  <b>两个提醒</b>：<br>
+  ① 9/25–9/27 若逢中秋假期、10/01 起国庆假期，<b>把这几天的「版本 B」升级为「版本 A」</b>（全天型，净学习 10.5h），
+  多出来的时间优先加给<b>数学几何专项</b>和<b>六级听力</b>，不要均分给其他科目。<br>
+  ② 连续 2 天未达标 → 立刻下调任务量。<b>两周计划被打破是正常的，放弃才是问题。</b>
+</div>
+
+<!-- ============ 打卡表 ============ -->
+<div class="pb"></div>
+<h2>五、两周打卡表（每 1–2 天打一次勾即可，不必逐项）</h2>
+<table class="check">
+  <thead>
+    <tr>
+      <th>任务</th>
+      <th class="c">9/18</th><th class="c">19</th><th class="c">20</th>
+      <th class="c">21</th><th class="c">22</th><th class="c">23</th><th class="c">24</th>
+      <th class="c">25</th><th class="c">26</th><th class="c">27</th>
+      <th class="c">28</th><th class="c">29</th><th class="c">30</th><th class="c">10/1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>英语词汇 45min</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+    <tr><td>数学专项 60–90min</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+    <tr><td>逻辑专项 60min</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+    <tr><td>英语精读 / 真题</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+    <tr><td>六级听力 40min</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+    <tr><td>写作输出</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+    <tr><td>错题录入</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+    <tr><td>23:00 前熄灯</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+  </tbody>
+</table>
+
+<h2>六、两周数据记录</h2>
+<div class="two-col">
+  <div>
+    <table>
+      <thead><tr><th>数学 · 几何专项</th><th class="c">正确率</th><th class="c">用时</th></tr></thead>
+      <tbody>
+        <tr><td>09/21 第 1 轮（10 题）</td><td class="blank"></td><td class="blank"></td></tr>
+        <tr><td>09/23 第 2 轮（10 题）</td><td class="blank"></td><td class="blank"></td></tr>
+        <tr><td>09/25 第 3 轮（10 题）</td><td class="blank"></td><td class="blank"></td></tr>
+        <tr><td>09/26 周测（25 题）</td><td class="blank"></td><td class="blank"></td></tr>
+        <tr><td>09/28–09/30 三角形（30 题）</td><td class="blank"></td><td class="blank"></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <table>
+      <thead><tr><th>逻辑 · 形式逻辑</th><th class="c">错题数</th><th class="c">用时</th></tr></thead>
+      <tbody>
+        <tr><td>09/21 逆否等价（20 题）</td><td class="blank"></td><td class="blank"></td></tr>
+        <tr><td>09/25 充分必要转换（20 题）</td><td class="blank"></td><td class="blank"></td></tr>
+        <tr><td>09/26 周测（30 题）</td><td class="blank"></td><td class="blank"></td></tr>
+        <tr><td>09/28 假言选言转换（20 题）</td><td class="blank"></td><td class="blank"></td></tr>
+        <tr><td>09/30 分析推理（15 题）</td><td class="blank"></td><td class="blank"></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<table>
+  <thead><tr><th style="width:56mm">其它必填项</th><th class="c" style="width:26mm">数值</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td>09/18 六级听力原始分</td><td class="blank"></td><td>定位测试，决定听力要占多少时间</td></tr>
+    <tr><td>09/27 管综小模考总分</td><td class="blank"></td><td>数学 + 逻辑，对标 9/20 基线</td></tr>
+    <tr><td>两周累计净学习时长</td><td class="blank"></td><td>目标 ≈ 100 h（14 天 × 7 h）</td></tr>
+    <tr><td>两周累计错题（带口诀）</td><td class="blank"></td><td>目标 ≥ 40 条</td></tr>
+    <tr><td>六级听力精听次数</td><td class="blank"></td><td>目标 ≥ 8 次</td></tr>
+  </tbody>
+</table>
+
+<h3>两周总结（10/01 填写）</h3>
+<div style="border-bottom:1px solid #999;height:15px;margin:7px 0"></div>
+<div style="border-bottom:1px solid #999;height:15px;margin:7px 0"></div>
+<div style="border-bottom:1px solid #999;height:15px;margin:7px 0 18px"></div>
+
+<div class="box">
+  <b>数据录入命令</b>（在电脑上执行）：<br>
+  <span class="small">
+  <code>cd D:\dpsk\考研备考</code><br>
+  <code>python tools\tracker.py add-mistake</code>　录入错题（自动排入艾宾浩斯复习）　|　
+  <code>python tools\tracker.py add-session</code>　录入时长<br>
+  <code>python tools\tracker.py review</code>　今日到期复习　|　
+  <code>python tools\tracker.py report</code>　周报表　|　
+  <code>python tools\tracker.py excel</code>　刷新 Excel 仪表盘
+  </span>
+</div>
+
+<p class="small" style="text-align:center;margin-top:16px;color:#888">
+  两周执行计划 09/18 – 10/01　|　距考研初试 2026-12-19 还有 93 天
+</p>
+
+</div>
+</body>
+</html>
